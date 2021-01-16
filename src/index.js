@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import App from './App'
+import App from './container/App.js'
 import 'antd/dist/antd.css'
 import { ApolloClient, InMemoryCache } from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
@@ -42,7 +42,7 @@ const client = new ApolloClient({
 })
 const wrappedApp = (
   <ApolloProvider client={client}>
- 	 <App />
+  	<App />
   </ApolloProvider>
 )
 
