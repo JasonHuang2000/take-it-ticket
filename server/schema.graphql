@@ -1,35 +1,102 @@
 type Query {
-  messages(query: String!): [Message]
+  shift(query: queryShift!): [Shifts]
+  findSeat(data: querySeat!): Seat
+  user(query: ID!): User
 }
 
 type Mutation {
-  createMessage(data: createMessageInput!): Message
-  deleteMessage(from: String!): String
-  deleteAll: String
-}
-
-input createMessageInput {
-  from: String!
-  to: String!
-  body: String!
+  createUser(name: String!): User
+  createShift(data: createShift!): Shift
+  updateSeat(data: updateSeat!) : Seat
+  deleteUser(id: ID!): User
 }
 
 type Subscription {
-  message: messagePayload!
+  seat: seatPayload!
 }
 
-type Message {
-  from: String!
-  to: String!
-  body: String!
+# for mutation - create shift
+input createShift {
+  trainNum: Int
+  schedule: Schedule
+  departure: String
+  arrival: String
 }
 
-type messagePayload {
+# for mutation - update seat
+input updateSeat {
+  trainNum: Int!
+  carriage: Int!
+  seatNum: Int!
+  available: Boolean
+}
+
+# for query shift
+type queryShift {
+  schedule: Schedule
+  departure: String
+  arrival: String
+}
+
+# for query seat's available
+input querySeat {
+  trainNum: Int
+  carriage: Int
+  seatNum: Int
+}
+
+type User {
+  name: String
+  userid: ID
+  history: [Record]
+}
+
+type Record {
+  total: Int
+  trainNum: Int
+  seats: [Seat]
+}
+
+# the time and date info for a shift
+type Schedule {
+  date: Date
+  depart: Time
+  arrive: Time
+}
+
+type Date {
+  year: Int
+  month: Int
+  day: Int
+}
+
+type Time {
+  hour: Int
+  minute: Int
+}
+
+type Shift {
+  trainNum: Int
+  schedule: Schedule
+  departure: String
+  arrival: String
+  seats: [Seat]
+}
+
+# who preserve the seat and whether it is available
+type Seat {
+  carriage: Int!
+  seatNum: Int!
+  available: Boolean!
+}
+
+type seatPayload {
   mutation: mutationType!
-  data: Message!
+  data: Seat
 }
 
 enum mutationType {
   CREATED
+  CHANGED
   DELETED
 }

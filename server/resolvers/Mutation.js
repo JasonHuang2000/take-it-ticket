@@ -1,40 +1,63 @@
+import uuidv4 from 'uuid/v4'
+
 const Mutation = {
-	createMessage(parent, args, { Message, pubsub }, info) {
-		const instance = args.data
-		Message.create(instance, (err, _) => {
+	createUser(parent, args, { User }, info) {
+		const doc = {
+			name: args.name,
+			id: uuidv4(),
+			history: []
+		}
+
+		User.create(doc, (err) => {
 			if (err) throw err
 		})
-		pubsub.publish("message", {
-			message: {
-				mutation: "CREATED",
-				data: instance,
-			}
-		})
-		return instance
 	},
-	deleteMessage(parent, args, { Message, pubsub }, info) {
-		Message.deleteMany({
-			$or: [ { from: args.from }, { to: args.from } ]
+	createShift(parent, args, { Shift }, info) {
+		let i, j
+		const seatarr = []
+		for (i = 0; i < 5; i++) {
+			for (j = 0; j < 40; j++) {
+				seatarr.push({
+					carriage: i,
+					seatNum: j,
+					available: false,
+				})
+			}
+		}
+
+		const doc = {
+			trainNum: args.data.trainNum,
+			schedule: args.data.schedule,
+			departure: args.data.departure,
+			arrival: args.data.arrival,
+			seats: seatarr
+		}
+
+		Shift.create(doc, (err) => {
+			if (err) throw err
+		})
+	},
+	updateSeat(parent, args, { Shift }, info) {
+		Shift.update({
+			trainNum: args.data.trainNum,
+			seats: {
+				carriage: args.data.carriage,
+				seat: args.data.seat
+			}
+		}, {
+			$set: {
+				"seats.$": { available: args.data.available }
+			}
 		}, (err) => {
 			if (err) throw err
 		})
-		pubsub.publish("message", {
-			message: {
-				mutation: "DELETED",
-				data: {
-					from: args.from,
-					to: "",
-					body: "All messages have been cleared!"
-				}
-			}
-		})
-		return "Message Cleared!"
 	},
-	deleteAll(parent, args, { Message }, info) {
-		Message.deleteMany({}, (err) => {
+	deleteUser(parent, args, { User }, info) {
+		User.deleteOne({
+			userid: args.id
+		}, (err) => {
 			if (err) throw err
 		})
-		return "All Deleted!"
 	}
 }
 
