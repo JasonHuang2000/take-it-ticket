@@ -5,9 +5,9 @@ type Query {
 }
 
 type Mutation {
-  createUser(name: String!): User
-  createShift(data: createShift!): Shift
-  updateSeat(data: updateSeat!) : Seat
+  createUser(data: creUser!): User
+  createShift(data: creShift!): Shift
+  updateSeat(data: upSeat!) : Seat
   deleteUser(id: ID!): User
 }
 
@@ -15,8 +15,15 @@ type Subscription {
   seat: seatPayload!
 }
 
+# for mutation - create user
+input creUser {
+  name: String
+  userid: String
+  password: String
+}
+
 # for mutation - create shift
-input createShift {
+input creShift {
   trainNum: Int
   schedule: Schedule
   departure: String
@@ -24,7 +31,7 @@ input createShift {
 }
 
 # for mutation - update seat
-input updateSeat {
+input upSeat {
   trainNum: Int!
   carriage: Int!
   seatNum: Int!
@@ -47,7 +54,8 @@ input querySeat {
 
 type User {
   name: String
-  userid: ID
+  userid: String
+  password: String
   history: [Record]
 }
 

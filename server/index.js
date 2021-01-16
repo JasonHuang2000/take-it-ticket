@@ -1,7 +1,9 @@
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
-import Message from './models/message.js'
 import { GraphQLServer, PubSub } from 'graphql-yoga'
+
+import User from './models/user.js'
+import Shift from './models/shift.js'
 import Query from './resolvers/Query.js'
 import Mutation from './resolvers/Mutation.js'
 import Subscription from './resolvers/Subscription.js'
@@ -26,10 +28,11 @@ const server = new GraphQLServer({
 	resolvers: {
 		Query,
 		Mutation,
-		Subscription,
+		Subscription
 	},
 	context: {
-		Message,
+		User,
+		Shift,
 		pubsub
 	}
 })

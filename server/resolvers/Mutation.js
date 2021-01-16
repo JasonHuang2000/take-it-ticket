@@ -1,10 +1,9 @@
-import uuidv4 from 'uuid/v4'
-
 const Mutation = {
 	createUser(parent, args, { User }, info) {
 		const doc = {
-			name: args.name,
-			id: uuidv4(),
+			name: args.data.name,
+			userid: args.data.userid,
+			password: args.data.password,
 			history: []
 		}
 

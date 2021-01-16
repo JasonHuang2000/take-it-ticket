@@ -10,6 +10,9 @@ const UserSchema = new Schema({
 	userid: {
 		type: Number,
 	},
+	password: {
+		type: String,
+	},
 	history: [RecordSchema]
 })
 
