@@ -1,5 +1,5 @@
 type Query {
-  shift(query: queryShift!): [Shifts]
+  shift(query: queryShift!): [Shift]
   findSeat(data: querySeat!): Seat
   user(query: ID!): User
 }
@@ -39,7 +39,7 @@ input upSeat {
 }
 
 # for query shift
-type queryShift {
+input queryShift {
   schedule: Schedule
   departure: String
   arrival: String

@@ -1,6 +1,6 @@
 const Query = {
 	shift(parent, args, { Shift }, info) {
-		const output = await Shift.find({ $and: [ 
+		const output = Shift.find({ $and: [ 
 			{ departure: args.query.departure },
 			{ arrival: args.query.arrival },
 			{ schedule: {
@@ -14,24 +14,30 @@ const Query = {
 					minute: { $gte: args.query.schedule.depart.minute }
 				}
 			} }
-		]})
+		]}, (err) => {
+			if (err) throw err
+		})
 
 		return output
 	},
 	findSeat(parent, args, { Shift }, info) {
-		const output = await Shift.find({ $and: [
+		const output = Shift.find({ $and: [
 			{ trainNum: args.query.trainNum },
 			{ seats: {
 				carriage: args.query.carriage,
 				seatNum: args.query.seatNum
 			} }
-		] })
+		] }, (err) => {
+			if (err) throw err
+		})
 
 		return output
 	},
 	user(parent, args, { User }, info) {
-		const output = await User.find({
+		const output = User.find({
 			userid: args.query
+		}, (err) => {
+			if (err) throw err
 		})
 
 		return output
