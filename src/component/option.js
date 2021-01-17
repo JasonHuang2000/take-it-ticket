@@ -38,7 +38,15 @@ const useStyles = makeStyles((theme) => ({
 		height: '10%',
 		width: '80%',
 		position: 'absolute',
-		bottom: '60px',
+		bottom: '50px',
+		left: '50%',
+		transform: 'translateX(-50%)',
+	},
+	upbutton: {
+		height: '10%',
+		width: '80%',
+		position: 'absolute',
+		bottom: '120px',
 		left: '50%',
 		transform: 'translateX(-50%)',
 	},
@@ -72,15 +80,37 @@ export default function Option(props) {
 			<Typography className={classes.content}>
 				{info.content}
 			</Typography>
-			<Button
-				type="submit"
-				variant="contained"
-				fullWidth
-				color="default"
-				className={classes.button}
-			>
-				GO!
-			</Button>
+			{ info.idx === 1 ? (
+				<>
+					<Button
+						variant="contained"
+						fullWidth
+						color="primary"
+						className={classes.upbutton}
+					>
+						Reserved Seat
+					</Button>
+					<Button
+						type="submit"
+						variant="contained"
+						fullWidth
+						color="secondary"
+						className={classes.button}
+					>
+						Non-reserved Seat
+					</Button>
+				</>
+			) : (
+				<Button
+					type="submit"
+					variant="contained"
+					fullWidth
+					color="default"
+					className={classes.button}
+				>
+					GO!
+				</Button>
+			)}
 		</Container>
 	);
 }
