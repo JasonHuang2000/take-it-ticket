@@ -1,4 +1,5 @@
 import StartUp from './startUp.js';
+import Options from './options.js';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { useState } from 'react';
 
@@ -13,10 +14,11 @@ const theme = createMuiTheme({
 
 export default function App() {
 	
+	// Name, User ID, Password
 	const [name, setName] = useState('');
 	const [ID, setID] = useState('');
 	const [password, setPassword] = useState('');
-
+	// handling function
 	const handleNameChange = (e) => {
 		setName(e.target.value);
 	}
@@ -27,13 +29,26 @@ export default function App() {
 		setPassword(e.target.value);
 	}
 
+	// entered options menu
+	const [enterOption, setEnterOption] = useState(false);
+	// handling function
+	const handleEnterOption = () => {
+		console.log("hi");
+		setEnterOption(true);
+	}
+
 	return (
 		<ThemeProvider theme={theme}>
-			<StartUp 
-				onNameChange={handleNameChange}
-				onIDChange={handleIDChange}
-				onPswdChange={handlePswdChange}
-			/>
+			{ !enterOption ? (
+				<StartUp 
+					onNameChange={handleNameChange}
+					onIDChange={handleIDChange}
+					onPswdChange={handlePswdChange}
+					onEnterOption={handleEnterOption}
+				/>
+			) : (
+				<Options />
+			) }
 		</ThemeProvider>
 	);
 }

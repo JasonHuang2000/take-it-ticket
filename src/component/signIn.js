@@ -70,6 +70,7 @@ export default function SignIn(props) {
             variant="contained"
             color="primary"
             className={classes.submit}
+						onClick={props.onEnterOption}
           >
 						Log In
           </Button>
