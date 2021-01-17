@@ -10,23 +10,32 @@ import SignUp from '../component/signUp.js'
 const useStyles = makeStyles((theme) => ({
 	root: {
 		height: '100%',
-		backgroundImage: 'url("https://images.pexels.com/photos/28614/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260")',
+		// backgroundImage: 'url("https://images.pexels.com/photos/28614/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260")',
 		backgroundSize: 'cover',
+		backgroundColor: 'rgb(200, 200, 200)',
 	},
 	buttonContainer: {
-		height: '100%',
-		backgroundColor: 'rgba(255, 255, 255, 0.5)',
+		height: '80%',
+		overflow: 'auto',
+		margin: 'auto',
+		position: 'absolute',
+		top: '0',
+		bottom: '0',
+		right: '0',
+		left: '0',
+		backgroundColor: 'rgba(255, 255, 255, 0.3)',
 	},
 	button: {
-		width: '60%',
+		width: '40%',
 		top: '30%',
 		left: '50%',
 		transform: 'translate(-50%)',
-		marginBottom: theme.spacing(2),
+		marginBottom: theme.spacing(3),
 	},
 }));
 
 export default function StartUp(props) {
+
 	const classes = useStyles();
 	const [signIn, setSignIn] = useState(false);
 	const [signUp, setSignUp] = useState(false);
@@ -59,7 +68,7 @@ export default function StartUp(props) {
 					onClick={handleSignInClick}
 				>
 					LOGIN
-				</Button>
+				</Button> <br />
 				{ !signUp ? (
 					<Modal
 						open={signIn}
@@ -69,6 +78,7 @@ export default function StartUp(props) {
 							onSignUpClick={handleSignUpClick}
 							onIDChange={props.onIDChange}
 							onPswdChange={props.onPswdChange}
+							onEnterOption={props.onEnterOption}
 						/>
 					</Modal>
 				 ) : (
@@ -89,7 +99,7 @@ export default function StartUp(props) {
 					color="default"
 					className={classes.button}
 				> 
-					Look Up
+					Shift Schedule
 				</Button>
 			</Container>
 		</Container>

@@ -77,6 +77,7 @@ export default function SignUpBody(props) {
 						variant="contained"
 						color="primary"
 						className={classes.submit}
+						onClick={props.onBackClick}
 					>
 						SIGN UP
 					</Button>
