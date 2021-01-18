@@ -3,7 +3,7 @@ import Options from './options.js';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { useState } from 'react';
 
-import User from '../../server/models/user'
+// import User from '../../backend/models/user'
 
 const theme = createMuiTheme({
   typography: {
