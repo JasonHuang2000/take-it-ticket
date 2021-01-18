@@ -8,6 +8,8 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -42,7 +44,26 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SignIn(props) {
-	const classes = useStyles();
+  const classes = useStyles();
+  const [showPwd, setshowPwd] = useState(false);
+
+  const handleClickShowPwd = (e) => {
+    if (showPwd) {
+      setshowPwd(false)
+    } else {
+      setshowPwd(true)
+    }
+  }
+
+  const handleMouseDownPwd = (e) => {
+    if (showPwd) {
+      setshowPwd(false)
+    } else {
+      setshowPwd(true)
+    }
+  }
+
+
 	return (
 		<Container maxWidth='sm' >
       <CssBaseline />
@@ -69,9 +90,21 @@ export default function SignIn(props) {
             fullWidth
             name="password"
             label="Password"
-            type="password"
+            // type="password"
+            type={showPwd ? 'text' : 'password'}
             id="password"
-						onChange={props.onPswdChange}
+            onChange={props.onPswdChange}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPwd}
+                  onMouseDown={handleMouseDownPwd}
+                >
+                  {showPwd ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
           />
           <Button
             type="submit"
