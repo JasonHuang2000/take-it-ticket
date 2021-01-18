@@ -5,9 +5,6 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Button from '@material-ui/core/Button';
-import Modal from '@material-ui/core/Modal';
-import { useState } from 'react';
-import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -61,9 +58,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Option(props) {
+
 	const classes = useStyles();
 	const info = props.optionInfo;
-	const [open, setOpen] = useState(false);
 	
 	return (
 		<Container className={classes.root} >

@@ -32,6 +32,13 @@ const useStyles = makeStyles((theme) => ({
 		transform: 'translate(-50%)',
 		marginBottom: theme.spacing(3),
 	},
+	signin: {
+		top: '0%',
+		transition: 'top 1s ease-in',
+		'&:hover': {
+			top: '50%',
+		}
+	}
 }));
 
 export default function StartUp(props) {
