@@ -10,15 +10,24 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+	root: {
+		marginTop: '0px',
+	},
 	title: {
 		marginTop: theme.spacing(3),
 	},
   paper: {
-    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    marginTop: theme.spacing(8),
   },
+	paper_before: {
+    marginTop: theme.spacing(-60),
+	},
+	paper_after: {
+    marginTop: theme.spacing(8),
+	},
   form: {
     width: '80%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
@@ -35,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn(props) {
 	const classes = useStyles();
 	return (
-		<Container maxWidth='sm'>
+		<Container maxWidth='sm' >
       <CssBaseline />
       <Paper className={classes.paper}>
         <Typography className={classes.title} component="h1" variant="h5">
