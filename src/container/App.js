@@ -3,6 +3,8 @@ import Options from './options.js';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { useState } from 'react';
 
+import User from '../../server/models/user'
+
 const theme = createMuiTheme({
   typography: {
     fontFamily: [
@@ -18,6 +20,7 @@ export default function App() {
 	const [name, setName] = useState('');
 	const [ID, setID] = useState('');
 	const [password, setPassword] = useState('');
+
 	// handling function
 	const handleNameChange = (e) => {
 		setName(e.target.value);

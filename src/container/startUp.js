@@ -1,9 +1,14 @@
+// react
 import React from 'react';
+import { useState } from 'react';
+
+// material ui
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import { useState } from 'react';
 import Modal from '@material-ui/core/Modal';
 import Container from '@material-ui/core/Container';
+
+// component
 import SignIn from '../component/signIn.js'
 import SignUp from '../component/signUp.js'
 
