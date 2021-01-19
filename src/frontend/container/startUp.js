@@ -49,26 +49,6 @@ const useStyles = makeStyles((theme) => ({
 export default function StartUp(props) {
 
 	const classes = useStyles();
-	const [signIn, setSignIn] = useState(false);
-	const [signUp, setSignUp] = useState(false);
-
-	const handleSignInClick = () => {
-		setSignIn(true);
-	}
-	const handleSignInClose = () => {
-		setSignIn(false);
-	}
-	const handleSignUpClick = () => {
-		setSignUp(true);
-		setSignIn(false);
-	}
-	const handleSignUpClose = () => {
-		setSignUp(false);
-	}
-	const handleBackClick = () => {
-		setSignUp(false);
-		setSignIn(true);
-	}
 
 	return (
 		<Container maxWidth='xl' className={classes.root}>
@@ -77,35 +57,10 @@ export default function StartUp(props) {
 					variant="contained"
 					color="primary"
 					className={classes.button}
-					onClick={handleSignInClick}
+					onClick={props.onSignInClick}
 				>
-					LOGIN
+					LOG IN
 				</Button> <br />
-				{ !signUp ? (
-					<Modal
-						open={signIn}
-						onClose={handleSignInClose}
-					>
-						<SignIn
-							onSignUpClick={handleSignUpClick}
-							onIDChange={props.onIDChange}
-							onPswdChange={props.onPswdChange}
-							onEnterOption={props.onEnterOption}
-						/>
-					</Modal>
-				 ) : (
-					<Modal
-						open={signUp}
-						onClose={handleSignUpClose}
-					>
-						<SignUp
-							onBackClick={handleBackClick}
-					 		onNameChange={props.onNameChange}
-							onIDChange={props.onIDChange}
-							onPswdChange={props.onPswdChange}
-						/>
-					</Modal>
-				) }
 				<Button
 					variant="contained"
 					color="default"

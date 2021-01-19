@@ -1,0 +1,40 @@
+import Button from '@material-ui/core/Button';
+import Drawer from '@material-ui/core/Drawer';
+import Menu from '../component/menu';
+import { makeStyles } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		margin: theme.spacing(1,1,1,1),
+		position: 'absolute',
+		width: '100%',
+	},
+	button: {
+		marginLeft: theme.spacing(1),
+		width: '50px',
+		fontSize: '18px',
+	},
+}));
+
+export default function MyDrawer(props) {
+	
+	const classes = useStyles();
+	const { opened, handleToggleMenu, signIn, onLogInClick, onLogOutClick } = props;
+
+	return (
+		<div className={classes.root}>
+			<IconButton onClick={() => handleToggleMenu(true)} className={classes.button}>
+				<MenuIcon />
+			</IconButton>
+			<Drawer open={opened} onClose={() => handleToggleMenu(false)} className={classes.drawer}>
+				<Menu 
+					signIn={signIn}
+					onLogInClick={onLogInClick}
+					onLogOutClick={onLogOutClick}
+				/>
+			</Drawer>
+    </div>
+	);
+}
