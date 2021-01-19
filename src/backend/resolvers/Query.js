@@ -53,13 +53,19 @@ const Query = {
 		const output = await User.findOne({
 			userid: args.id
 		})
-		
-		return {
-			name: output.name,
-			userid: output.userid,
-			password: output.password,
-			history: output.history
+
+		if (output === null) {
+			return null
+		} else {
+			return {
+				name: output.name,
+				userid: output.userid,
+				password: output.password,
+				history: output.history
+			}
 		}
+		
+		
 	}
 }
 

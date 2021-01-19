@@ -3,11 +3,14 @@ import Options from './options.js';
 import MyDrawer from './drawer';
 import Booking from './booking';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import moment from 'moment';
 import Modal from '@material-ui/core/Modal';
 import SignIn from '../component/signIn';
 import SignUp from '../component/signUp';
+
+import { useQuery, useMutation } from '@apollo/react-hooks'
+import { ALLUSER_QUERY, USER_QUERY, FINDSEAT_QUERY, ALLSHIFT_QUERY, SHIFT_QUERY } from '../graphql/query.js';
 
 const theme = createMuiTheme({
   typography: {
@@ -25,21 +28,27 @@ export default function App() {
 	const [ID, setID] = useState('');
 	const [password, setPassword] = useState('');
 	const [signIn, setSignIn] = useState(false);
+	const [IDtaken, setIDtaken] = useState(false)
+
+	// grqphql
+	const { loading, error, data, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
+
+	useEffect(() => {
+		if (data !== undefined) {
+			if (data.user === null) {
+				setIDtaken(false);
+			} else {
+				setIDtaken(true);
+			}
+		}
+	})
+
 	// handling function
 	const handleNameChange = (e) => {
 		setName(e.target.value);
 	}
 	const handleIDChange = (e) => {
 		setID(e.target.value);
-		const res = User.find({userid: ID}, (err) => {
-			if (err) throw err
-		})
-
-		if (res === null) {
-			setIDtaken(false);
-		} else {
-			setIDtaken(true);
-		}
 	}
 	const handlePswdChange = (e) => {
 		setPassword(e.target.value);
@@ -124,7 +133,6 @@ export default function App() {
 					onIDChange={handleIDChange}
 					onPswdChange={handlePswdChange}
 					onEnterOption={handleEnterOption}
-					IDtaken={IDtaken}
 				/>
 			</Modal>
 			<Modal
@@ -136,6 +144,7 @@ export default function App() {
 					onNameChange={handleNameChange}
 					onIDChange={handleIDChange}
 					onPswdChange={handlePswdChange}
+					IDtaken={IDtaken}
 				/>
 			</Modal>
 			{ !enterOption ? (
