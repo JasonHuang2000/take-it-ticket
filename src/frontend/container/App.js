@@ -31,6 +31,15 @@ export default function App() {
 	}
 	const handleIDChange = (e) => {
 		setID(e.target.value);
+		const res = User.find({userid: ID}, (err) => {
+			if (err) throw err
+		})
+
+		if (res === null) {
+			setIDtaken(false);
+		} else {
+			setIDtaken(true);
+		}
 	}
 	const handlePswdChange = (e) => {
 		setPassword(e.target.value);
@@ -119,6 +128,7 @@ export default function App() {
 					onIDChange={handleIDChange}
 					onPswdChange={handlePswdChange}
 					onEnterOption={handleEnterOption}
+					IDtaken={IDtaken}
 				/>
 			</Modal>
 			<Modal

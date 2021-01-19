@@ -10,16 +10,18 @@ const Mutation = {
 		User.create(doc, (err) => {
 			if (err) throw err
 		})
+
+		return doc
 	},
 	createShift(parent, args, { Shift }, info) {
 		let i, j
 		const seatarr = []
-		for (i = 0; i < 5; i++) {
-			for (j = 0; j < 40; j++) {
+		for (i = 1; i <= 5; i++) {
+			for (j = 1; j <= 40; j++) {
 				seatarr.push({
 					carriage: i,
 					seatNum: j,
-					available: false,
+					available: true,
 				})
 			}
 		}
@@ -35,28 +37,56 @@ const Mutation = {
 		Shift.create(doc, (err) => {
 			if (err) throw err
 		})
+
+		return doc
 	},
-	updateSeat(parent, args, { Shift }, info) {
-		Shift.update({
+	async updateSeat(parent, args, { Shift }, info) {
+		const idx = (args.data.carriage - 1) * 40 + args.data.seatNum - 1
+		const train = await Shift.findOne({
+			trainNum: args.data.trainNum
+		})
+
+		train.seats[idx].available = args.data.available
+
+		await Shift.updateOne({
 			trainNum: args.data.trainNum,
-			seats: {
-				carriage: args.data.carriage,
-				seat: args.data.seat
-			}
 		}, {
 			$set: {
-				"seats.$": { available: args.data.available }
+				seats: train.seats,
 			}
-		}, (err) => {
-			if (err) throw err
 		})
+
+		return {
+			carriage: args.data.carriage,
+			seatNum: args.data.seatNum,
+			available: args.data.available
+		}
 	},
-	deleteUser(parent, args, { User }, info) {
+	async deleteUser(parent, args, { User }, info) {
+		const out = await User.findOne({
+			userid: args.id
+		})
+
 		User.deleteOne({
 			userid: args.id
 		}, (err) => {
 			if (err) throw err
 		})
+
+		return out
+	},
+	async deleteShift(parent, args, { Shift }, info) {
+		const out = await Shift.findOne({
+			trainNum: args.id
+		})
+
+		Shift.deleteOne({
+			trainNum: args.id
+		}, (err) => {
+			if (err) throw err
+		})
+
+		return out
 	}
 }
 

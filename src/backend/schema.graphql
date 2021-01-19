@@ -1,14 +1,17 @@
 type Query {
+  allShift: [Shift]
   shift(query: queryShift!): [Shift]
-  findSeat(data: querySeat!): Seat
-  user(query: ID!): User
+  findSeat(query: querySeat!): Seat
+  allUser: [User]
+  user(id: String!): User
 }
 
 type Mutation {
   createUser(data: creUser!): User
   createShift(data: creShift!): Shift
   updateSeat(data: upSeat!) : Seat
-  deleteUser(id: ID!): User
+  deleteUser(id: String!): User
+  deleteShift(id: Int!): Shift
 }
 
 type Subscription {
@@ -25,22 +28,40 @@ input creUser {
 # for mutation - create shift
 input creShift {
   trainNum: Int
-  schedule: Schedule
+  schedule: scheduleIn
   departure: String
   arrival: String
 }
 
+input scheduleIn {
+  date: dateIn
+  depart: timeIn
+  arrive: timeIn
+}
+
+input dateIn {
+  year: Int
+  month: Int
+  day: Int
+}
+
+input timeIn {
+  hour: Int
+  minute: Int
+}
+
 # for mutation - update seat
 input upSeat {
-  trainNum: Int!
-  carriage: Int!
-  seatNum: Int!
+  trainNum: Int
+  carriage: Int
+  seatNum: Int
   available: Boolean
 }
 
 # for query shift
 input queryShift {
-  schedule: Schedule
+  date: dateIn
+  time: timeIn
   departure: String
   arrival: String
 }
@@ -93,9 +114,9 @@ type Shift {
 
 # who preserve the seat and whether it is available
 type Seat {
-  carriage: Int!
-  seatNum: Int!
-  available: Boolean!
+  carriage: Int
+  seatNum: Int
+  available: Boolean
 }
 
 type seatPayload {

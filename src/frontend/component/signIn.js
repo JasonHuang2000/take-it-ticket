@@ -1,4 +1,6 @@
 import React from 'react';
+import { useState } from 'react';
+
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -8,6 +10,13 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -37,12 +46,25 @@ const useStyles = makeStyles((theme) => ({
   },
 	signUp: {
 		marginBottom: theme.spacing(5),
-	},
+  },
+  signbox: {
+    marginTop: "12px",
+  },
 }));
 
 
 export default function SignIn(props) {
-	const classes = useStyles();
+  const classes = useStyles();
+  const [showPwd, setshowPwd] = useState(false);
+
+  const handleClickShowPwd = (e) => {
+    if (showPwd) {
+      setshowPwd(false)
+    } else {
+      setshowPwd(true)
+    }
+  }
+
 	return (
 		<Container maxWidth='sm' >
       <CssBaseline />
@@ -52,6 +74,8 @@ export default function SignIn(props) {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
+            // error
+            // helperText="Incorrect entry."
             variant="outlined"
             margin="normal"
             required
@@ -60,19 +84,32 @@ export default function SignIn(props) {
             label="Your User ID"
             name="ID"
             autoFocus
-						onChange={props.onIDChange}
+            onChange={props.onIDChange}
+            className={classes.signbox}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-						onChange={props.onPswdChange}
-          />
+          <FormControl variant="outlined" fullWidth required className={classes.signbox}>
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <OutlinedInput
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="PasswordD"
+              type={showPwd ? 'text' : 'password'}
+              id="password"
+              onChange={props.onPswdChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPwd}
+                  >
+                    {showPwd ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
           <Button
             type="submit"
             fullWidth

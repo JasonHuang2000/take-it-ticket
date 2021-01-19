@@ -1,46 +1,65 @@
 const Query = {
-	shift(parent, args, { Shift }, info) {
-		const output = Shift.find({ $and: [ 
-			{ departure: args.query.departure },
-			{ arrival: args.query.arrival },
-			{ schedule: {
-				date: {
-					year: args.query.schedule.date.year,
-					month: args.query.schedule.date.month,
-					day: args.query.schedule.date.day
-				},
-				depart: {
-					hour: { $gte: args.query.schedule.depart.hour },
-					minute: { $gte: args.query.schedule.depart.minute }
-				}
-			} }
-		]}, (err) => {
+	allShift(parent, args, { Shift }, info) {
+		const output = Shift.find((err) => {
 			if (err) throw err
 		})
 
 		return output
 	},
-	findSeat(parent, args, { Shift }, info) {
-		const output = Shift.find({ $and: [
-			{ trainNum: args.query.trainNum },
-			{ seats: {
+	async shift(parent, args, { Shift }, info) {
+		const output = await Shift.find({ $and: [ 
+			{
+				departure: args.query.departure,
+				arrival: args.query.arrival,
+				"schedule.date.year": args.query.date.year,
+				"schedule.date.month": args.query.date.month,
+				"schedule.date.day": args.query.date.day
+			}, {
+				"schedule.depart.hour": { $gte: args.query.time.hour },},{
+				"schedule.depart.minute": { $gte: args.query.time.minute },
+			},
+		]})
+
+		return output
+	},
+	async findSeat(parent, args, { Shift }, info) {
+		let seat
+		const output = await Shift.findOne({ trainNum: args.query.trainNum })
+
+		if (output === null) {
+			seat = {
+				carriage: -1,
+				seatNum: -1,
+				available: false,
+			}
+		} else {
+			seat = {
 				carriage: args.query.carriage,
-				seatNum: args.query.seatNum
-			} }
-		] }, (err) => {
+				seatNum: args.query.seatNum,
+				available: output.seats[(args.query.carriage - 1) * 40 + args.query.seatNum - 1].available,
+			}
+		}
+
+		return seat
+	},
+	allUser(parent, args, { User }, info) {
+		const output = User.find((err) => {
 			if (err) throw err
 		})
 
 		return output
 	},
-	user(parent, args, { User }, info) {
-		const output = User.find({
-			userid: args.query
-		}, (err) => {
-			if (err) throw err
+	async user(parent, args, { User }, info) {
+		const output = await User.findOne({
+			userid: args.id
 		})
-
-		return output
+		
+		return {
+			name: output.name,
+			userid: output.userid,
+			password: output.password,
+			history: output.history
+		}
 	}
 }
 
