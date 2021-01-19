@@ -27,6 +27,7 @@ export default function Booking(props) {
 
   const classes = useStyles();
 	const station = ['Taipei', 'Hsinchu', 'Taichung'];
+	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange } = props;
 
   return (
     <div className={classes.container}>
@@ -35,8 +36,8 @@ export default function Booking(props) {
         id="datetime-local"
         label="Departure Date"
         type="date"
-				value={props._date}
-				onChange={props.onDateChange}
+				value={_date}
+				onChange={onDateChange}
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
@@ -46,8 +47,8 @@ export default function Booking(props) {
         id="time"
         label="Departure Time"
         type="time"
-				value={props._time}
-				onChange={props.onTimeChange}
+				value={_time}
+				onChange={onTimeChange}
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
@@ -61,8 +62,8 @@ export default function Booking(props) {
           id="standard-select-currency"
           select
           label="Departure Station"
-          value={props._departure}
-          onChange={props.onDepartureChange}
+          value={_departure}
+          onChange={onDepartureChange}
 					className={classes.textField}
         >
           { station.map((option) => (
