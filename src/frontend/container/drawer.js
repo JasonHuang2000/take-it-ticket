@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(1,1,1,1),
 		position: 'absolute',
 		width: '100%',
+		zIndex: '1000',
 	},
 	button: {
 		marginLeft: theme.spacing(1),

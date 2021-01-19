@@ -9,10 +9,14 @@ import Modal from '@material-ui/core/Modal';
 import SignIn from '../component/signIn';
 import SignUp from '../component/signUp';
 
+import User from '../../backend/models/user';
+
 const theme = createMuiTheme({
   typography: {
     fontFamily: [
 			'Arial Black',
+			'Arial',
+			'American Typewriter',
 			'Roboto',
     ].join(','),
   },
@@ -25,6 +29,7 @@ export default function App() {
 	const [ID, setID] = useState('');
 	const [password, setPassword] = useState('');
 	const [signIn, setSignIn] = useState(false);
+	const [IDtaken, setIDtaken] = useState(false);
 	// handling function
 	const handleNameChange = (e) => {
 		setName(e.target.value);

@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 		bottom: '0',
 		width: '250px',
 		height: '70px',
-		margin: '0px 25px 25px 25px',
+		margin: '0 2% 2% 2%',
 	},
 	button: {
 		height: '100%',
