@@ -3,7 +3,7 @@ import Options from './options.js';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { useState } from 'react';
 
-// import User from '../../backend/models/user'
+import User from '../../backend/models/user'
 
 const theme = createMuiTheme({
   typography: {
@@ -20,6 +20,7 @@ export default function App() {
 	const [name, setName] = useState('');
 	const [ID, setID] = useState('');
 	const [password, setPassword] = useState('');
+	const [IDtaken, setIDtaken] = useState(false);
 
 	// handling function
 	const handleNameChange = (e) => {
@@ -27,6 +28,15 @@ export default function App() {
 	}
 	const handleIDChange = (e) => {
 		setID(e.target.value);
+		const res = User.find({userid: ID}, (err) => {
+			if (err) throw err
+		})
+
+		if (res === null) {
+			setIDtaken(false);
+		} else {
+			setIDtaken(true);
+		}
 	}
 	const handlePswdChange = (e) => {
 		setPassword(e.target.value);
@@ -48,6 +58,7 @@ export default function App() {
 					onIDChange={handleIDChange}
 					onPswdChange={handlePswdChange}
 					onEnterOption={handleEnterOption}
+					IDtaken={IDtaken}
 				/>
 			) : (
 				<Options />
