@@ -36,6 +36,10 @@ export default function App() {
 	const [IDtaken, setIDtaken] = useState(false)
 	const [nameEmp, setnameEmp] = useState(false)
 	const [pwdEmp, setpwdEmp] = useState(false)
+	const [idEmp, setIdEmp] = useState(false)
+	const [wrongPwd, setWrongPwd] = useState(false)
+	const [wrongID, setWrongID] = useState(false)
+	const [signing, setSigning] = useState(false)
 
 	// grqphql
 	const { loading, error, data, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
@@ -52,6 +56,15 @@ export default function App() {
 		if (name !== "") {
 			setnameEmp(false)
 		}
+		if (password !== "") {
+			setpwdEmp(false)
+		}
+		if (ID !== "") {
+			setIdEmp(false)
+		}
+		if (signing) {
+			setSignInOpen(true)
+		}
 	})
 
 	// handling function
@@ -65,17 +78,16 @@ export default function App() {
 		setPassword(e.target.value);
 	}
 	const handleLogIn = () => {
-		console.log('in');
 		handleToggleMenu(false);
 		setSignIn(true);
 	}
 	const handleLogOut = () => {
-		console.log('out');
 		handleToggleMenu(false);
 		setSignIn(false);
 		setName('');
 		setID('');
 		setPassword('');
+		setEnterOption(false);
 	}
 
 	// SignIn/SignUp page
@@ -86,45 +98,76 @@ export default function App() {
 		handleToggleMenu(false);
 		setSignInOpen(true);
 		setSignUpOpen(false);
+		setSigning(true);
 	}
 	const handleSignInClose = () => {
 		setSignInOpen(false);
+		setSigning(false);
 	}
 	const handleSignUpClick = () => {
 		setSignUpOpen(true);
 		setSignInOpen(false);
+		setSigning(true);
 	}
 	const handleSignUpClose = () => {
 		setSignUpOpen(false);
+		setSigning(false);
+	}
+
+	// entered pages
+	const [enterOption, setEnterOption] = useState(false);
+	const [enterBooking, setEnterBooking] = useState(false);
+	// handling function
+	const handleEnterOption = () => {
+		const savedPwd = MD5(password).toString();
+		// setSignInOpen(true);
+		if (data.user === null) {
+			setWrongID(true)
+			setSignInOpen(true);
+		} else if (data.user.password !== savedPwd) {
+			setWrongID(false)
+			setWrongPwd(true)
+			setSignInOpen(true);
+		} else if (data.user.userid === ID && savedPwd == data.user.password) {
+			setSignIn(true)
+			setSignInOpen(false);
+			setSignUpOpen(false);
+			setEnterOption(true);
+			setSigning(false);
+		}
 	}
 	const handleSignUp = () => {
 		if (name === "") {
 			setnameEmp(true)
 		}
 		if (password === "") {
-			setpwdEmp(false)
+			setpwdEmp(true)
 		}
-		if (!IDtaken && !nameEmp && !pwdEmp) {
+		if (ID === "") {
+			setIdEmp(true)
+		}
+		if (!IDtaken && !idEmp && !nameEmp && !pwdEmp) {
 			const savedPwd = MD5(password).toString();
-			console.log(password)
-			console.log(savedPwd)
 
-			createUser({variables: {
-				name: name,
-				userid: ID,
-				password: savedPwd,
-			}})
+			createUser({
+				variables: {
+					name: name,
+					userid: ID,
+					password: savedPwd,
+				}
+			})
+
+			setName("")
+			setID("")
+			setPassword("")
+			
+			// get in option
+			setSignIn(true);
+			setSignInOpen(false);
+			setSignUpOpen(false);
+			setEnterOption(true);
+			setSigning(false);
 		}
-	}
-
-	// entered pages
-	const [enterOption, setEnterOption] = useState(false);
-	const [enterBooking, setEnterBooking] = useState(true);
-	// handling function
-	const handleEnterOption = () => {
-		setSignInOpen(false);
-		setSignUpOpen(false);
-		setEnterOption(true);
 	}
 
 	// Date and Time (pre-set to current time)
@@ -156,6 +199,7 @@ export default function App() {
 		setMenuOpen(opened);
 	}
 
+	console.log(signInOpen)
 	return (
 		<ThemeProvider theme={theme}>
 			<Modal
@@ -167,6 +211,8 @@ export default function App() {
 					onIDChange={handleIDChange}
 					onPswdChange={handlePswdChange}
 					onEnterOption={handleEnterOption}
+					wrongID={wrongID}
+					wrongPwd={wrongPwd}
 				/>
 			</Modal>
 			<Modal

@@ -92,7 +92,6 @@ export default function SignUpBody(props) {
 					<FormControl variant="outlined" fullWidth required className={classes.signbox}>
 						<InputLabel htmlFor="password">Password</InputLabel>
 						<OutlinedInput
-						// error={props.pwdEmp}
 						margin="normal"
 						required
 						fullWidth

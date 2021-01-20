@@ -8,7 +8,7 @@ export const CREATE_USER_MUTATION = gql`
     ) {
         createUser(
             data: {
-                name: $Name
+                name: $name
                 userid: $userid
                 password: $password
             }
