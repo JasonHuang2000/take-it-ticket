@@ -103,7 +103,9 @@ export default function App() {
 			setpwdEmp(false)
 		}
 		if (!IDtaken && !nameEmp && !pwdEmp) {
-			const savedPwd = MD5(password);
+			const savedPwd = MD5(password).toString();
+			console.log(password)
+			console.log(savedPwd)
 
 			createUser({variables: {
 				name: name,
