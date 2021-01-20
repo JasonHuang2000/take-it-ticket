@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MyDrawer(props) {
 	
 	const classes = useStyles();
-	const { opened, handleToggleMenu, signIn, onLogInClick, onLogOutClick } = props;
+	const { opened, handleToggleMenu, signIn, onLogInClick, onLogOutClick, username } = props;
 
 	return (
 		<div className={classes.root}>
@@ -32,6 +32,7 @@ export default function MyDrawer(props) {
 			<Drawer open={opened} onClose={() => handleToggleMenu(false)} className={classes.drawer}>
 				<Menu 
 					signIn={signIn}
+					username={username}
 					onLogInClick={onLogInClick}
 					onLogOutClick={onLogOutClick}
 				/>

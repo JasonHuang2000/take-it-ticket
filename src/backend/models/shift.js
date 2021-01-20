@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import ScheduleSchema from './schedule'
-import SeatSchema from './seat'
+import ScheduleSchema from './schedule.js'
+import SeatSchema from './seat.js'
 
 const Schema = mongoose.Schema
 

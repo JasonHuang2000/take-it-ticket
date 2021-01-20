@@ -80,9 +80,8 @@ export default function SignIn(props) {
             margin="normal"
             required
             fullWidth
-            id="ID"
+            id="_ID"
             label="Your User ID"
-            name="ID"
             autoFocus
             onChange={props.onIDChange}
             className={classes.signbox}
@@ -93,7 +92,6 @@ export default function SignIn(props) {
               margin="normal"
               required
               fullWidth
-              name="password"
               label="PasswordD"
               type={showPwd ? 'text' : 'password'}
               id="password"

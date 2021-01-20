@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 		bottom: '0',
 		width: '250px',
 		height: '70px',
-		margin: '0 2% 2% 2%',
+		margin: '0 18px 20px 18px',
 	},
 	button: {
 		height: '100%',
@@ -51,7 +51,7 @@ export default function Menu(props) {
 					className={classes.title}
 				>
 					<ListItemText 
-						primary='Options' 
+						primary={ signIn ? `Hi ${props.username} !` : `Menu` }
 						primaryTypographyProps={{
 							variant: 'h5',
 						}}

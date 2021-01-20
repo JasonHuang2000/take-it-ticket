@@ -18,10 +18,10 @@ import { CREATE_SHIFT_MUTATION, CREATE_USER_MUTATION, DELETE_SHIFT_MUTATION, DEL
 const theme = createMuiTheme({
   typography: {
     fontFamily: [
-			'Arial Black',
+			'Roboto',
 			'Arial',
 			'American Typewriter',
-			'Roboto',
+			'Arial Black',
     ].join(','),
   },
 });
@@ -96,6 +96,7 @@ export default function App() {
 		setSignUpOpen(false);
 	}
 	const handleSignInClose = () => {
+		
 		setSignInOpen(false);
 	}
 	const handleSignUpClick = () => {
@@ -108,7 +109,7 @@ export default function App() {
 
 	// entered pages
 	const [enterOption, setEnterOption] = useState(false);
-	const [enterBooking, setEnterBooking] = useState(false);
+	const [enterBooking, setEnterBooking] = useState(true);
 	// handling function
 	const handleEnterOption = () => {
 		const savedPwd = MD5(password).toString();
@@ -124,6 +125,7 @@ export default function App() {
 			setSignInOpen(false);
 			setSignUpOpen(false);
 			setEnterOption(true);
+			setName(data.user.name);
 		}
 	}
 	const handleSignUp = () => {
@@ -147,9 +149,9 @@ export default function App() {
 				}
 			})
 
-			setName("")
-			setID("")
-			setPassword("")
+			// setName("")
+			// setID("")
+			// setPassword("")
 			
 			// get in option
 			setSignIn(true);
@@ -223,6 +225,7 @@ export default function App() {
 			<MyDrawer
 				opened={menuOpen}
 				signIn={signIn}
+				username={name}
 				handleToggleMenu={handleToggleMenu}
 				onLogInClick={handleSignInClick}
 				onLogOutClick={handleLogOut}

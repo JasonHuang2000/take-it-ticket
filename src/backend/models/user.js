@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import RecordSchema from './record'
+import RecordSchema from './record.js'
 
 const Schema = mongoose.Schema
 

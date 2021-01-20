@@ -6,17 +6,20 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import Shift from '../component/shift';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-		// display: 'table',
 		position: 'absolute',
 		top: '0',
 		left: '0',
 		width: '100%',
 		height: '100%',
 		backgroundColor: 'rgb(230,230,230)',
-		// justifyContent: 'center',
+		textAlign: 'center',
+		display: 'block',
+		scrollBehavior: 'smooth',
+		overflowY: 'scroll',
 	},
 	title: {
 		width: '100%',
@@ -24,11 +27,8 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(5),
 		textAlign: 'center',
 	},
-	section1: {
-		position: 'absolute',
-		left: '50%',
-		transform: 'translateX(-50%)',
-		top: '5%',
+	section: {
+		margin: 'auto',
 		display: 'flex',
     flexWrap: 'wrap',
 		height: '30%',
@@ -38,14 +38,21 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		transition: 'opacity .5s ease-in-out',
 	},
-	section2: {
-		position: 'absolute',
-		left: '50%',
-		transform: 'translateX(-50%)',
-		top: '40%',
+	time : {
+		marginTop: '7.5%',
+		marginBottom: '5%',
+	}, 
+	location: {
+		marginTop: '5%',
+		marginBottom: '7.5%',
+	},
+	shiftSection: {
+		margin: 'auto',
+		marginTop: theme.spacing(5),
+		marginBottom: theme.spacing(5),
 		display: 'flex',
     flexWrap: 'wrap',
-		height: '30%',
+		height: '90%',
 		width: '60%',
 		textAlign: 'center',
 		borderRadius: '10px',
@@ -86,15 +93,41 @@ export default function Booking(props) {
   const classes = useStyles();
 	const station = ['Taipei', 'Hsinchu', 'Taichung'];
 	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange } = props;
+
 	const [opClass1, setOpClass1] = useState(`${classes.before}`);
 	const [opClass2, setOpClass2] = useState(`${classes.before}`);
+	const [opClass3, setOpClass3] = useState(`${classes.before}`);
+	const [departError, setDepartError] = useState(false);
+	const [destError, setDestError] = useState(false);
+	const [sameError, setSameError] = useState(false);
+	const handleLocationClick = () => {
+		if ( _departure === '' ) {
+			setDepartError(true);
+		} else {
+			setDepartError(false);
+		}
+		if ( _dest === '' ) {
+			setDestError(true);
+		} else {
+			setDestError(false);
+		}
+		if ( _departure !== '' && _dest !== '' ) {
+			if ( _departure === _dest ) {
+				setDepartError(true);
+				setDestError(true);
+				setSameError(true);
+			} else {
+				setOpClass3(`${classes.after}`);
+			}
+		}
+	}
 
 	setTimeout(() => setOpClass1(`${classes.after}`), 10);
 
   return (
     <div className={classes.container}>
-			<Paper className={`${classes.section1} ${opClass1}`}>
-				<Typography variant="h6" className={classes.subtitle}>1. Select Date and Time</Typography> <hr />
+			<Paper className={`${classes.section} ${classes.time} ${opClass1}`}>
+				<Typography variant="h6" className={classes.subtitle}>Select Date and Time</Typography> <hr />
 				<TextField
 					id="date"
 					label="Departure Date"
@@ -125,20 +158,23 @@ export default function Booking(props) {
 							type="submit"
 							variant="contained"
 							fullWidth
+							disabled={ opClass2 === classes.after }
 							color="default"
 							className={classes.button}
-							onClick={() => setOpClass2(`${classes.after1click}`)}
+							onClick={() => setOpClass2(`${classes.after}`)}
 					>
 						Next
 					</Button>
 				</div>
 			</Paper>
-			<Paper className={`${classes.section2} ${opClass2}`}>
-				<Typography variant="h6" className={classes.subtitle}>2. Select Departure and Destination</Typography>
+			<Paper className={`${classes.section} ${classes.location} ${opClass2}`}>
+				<Typography variant="h6" className={classes.subtitle}>Select Departure and Destination</Typography>
 				<TextField
 					id="departure"
 					label="Departure Station"
 					select
+					error={departError}
+					helperText={ departError ? ( sameError ? 'departure and destination cannot be the same' : 'please choose a departure station ' ) : '' }
 					value={_departure}
 					onChange={onDepartureChange}
 					className={classes.textField}
@@ -159,6 +195,8 @@ export default function Booking(props) {
 					id="dest"
 					label="Destination Station"
 					select
+					error={destError}
+					helperText={ destError ? ( sameError ? 'departure and destination cannot be the same' : 'please choose a destination station ' ) : '' }
 					value={_dest}
 					onChange={onDestChange}
 					className={classes.textField}
@@ -179,14 +217,24 @@ export default function Booking(props) {
 							type="submit"
 							variant="contained"
 							fullWidth
-							color="default"
+							color="primary"
 							className={classes.button}
+							onClick={handleLocationClick}
 					>
-						Next
+						Comfirm
 					</Button>
 				</div>
 			</Paper>
-			<Paper className={classes.section}>
+			<Paper className={`${classes.shiftSection} ${opClass3}`}>
+				<div className={classes.returnContainer}>
+					<Button
+						type="submit"
+						variant="outlined"
+					>
+						Choose Again
+					</Button>
+				</div>
+				<Shift />
 			</Paper>
     </div>
   );
