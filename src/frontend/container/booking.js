@@ -229,7 +229,6 @@ export default function Booking(props) {
 					</Button>
 				</div>
 			</Paper>
-<<<<<<< HEAD
 			{ shift ? (
 				<Paper className={`${classes.shiftSection} ${opClass3}`}>
 					<div className={classes.returnContainer}>
