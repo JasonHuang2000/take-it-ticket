@@ -39,7 +39,6 @@ export default function App() {
 	const [idEmp, setIdEmp] = useState(false)
 	const [wrongPwd, setWrongPwd] = useState(false)
 	const [wrongID, setWrongID] = useState(false)
-	const [signing, setSigning] = useState(false)
 
 	// grqphql
 	const { loading, error, data, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
@@ -61,9 +60,6 @@ export default function App() {
 		}
 		if (ID !== "") {
 			setIdEmp(false)
-		}
-		if (signing) {
-			setSignInOpen(true)
 		}
 	})
 
@@ -98,20 +94,16 @@ export default function App() {
 		handleToggleMenu(false);
 		setSignInOpen(true);
 		setSignUpOpen(false);
-		setSigning(true);
 	}
 	const handleSignInClose = () => {
 		setSignInOpen(false);
-		setSigning(false);
 	}
 	const handleSignUpClick = () => {
 		setSignUpOpen(true);
 		setSignInOpen(false);
-		setSigning(true);
 	}
 	const handleSignUpClose = () => {
 		setSignUpOpen(false);
-		setSigning(false);
 	}
 
 	// entered pages
@@ -120,7 +112,6 @@ export default function App() {
 	// handling function
 	const handleEnterOption = () => {
 		const savedPwd = MD5(password).toString();
-		// setSignInOpen(true);
 		if (data.user === null) {
 			setWrongID(true)
 			setSignInOpen(true);
@@ -128,12 +119,11 @@ export default function App() {
 			setWrongID(false)
 			setWrongPwd(true)
 			setSignInOpen(true);
-		} else if (data.user.userid === ID && savedPwd == data.user.password) {
+		} else if (data.user.userid === ID && savedPwd === data.user.password) {
 			setSignIn(true)
 			setSignInOpen(false);
 			setSignUpOpen(false);
 			setEnterOption(true);
-			setSigning(false);
 		}
 	}
 	const handleSignUp = () => {
@@ -166,7 +156,6 @@ export default function App() {
 			setSignInOpen(false);
 			setSignUpOpen(false);
 			setEnterOption(true);
-			setSigning(false);
 		}
 	}
 
@@ -213,6 +202,7 @@ export default function App() {
 					onEnterOption={handleEnterOption}
 					wrongID={wrongID}
 					wrongPwd={wrongPwd}
+					idEmp={idEmp}
 				/>
 			</Modal>
 			<Modal
