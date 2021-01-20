@@ -33,16 +33,16 @@ export const ALLSHIFT_QUERY = gql`
 export const SHIFT_QUERY = gql`
     query shift(
         # $date: {
-            $year: Int!
-            $month: Int!
-            $day: Int!
+            $year: Int
+            $month: Int
+            $day: Int
         # }
         # $time: {
-            $hour: Int!
-            $minute: Int!
+            $hour: Int
+            $minute: Int
         # }
-        $departure: String!
-        $arrival: String!
+        $departure: String
+        $arrival: String
     ) {
         shift (query: {
             date: {
