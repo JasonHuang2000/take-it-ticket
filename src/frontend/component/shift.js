@@ -7,10 +7,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography'
 
 import { useEffect } from 'react';
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import { ALLUSER_QUERY, USER_QUERY, FINDSEAT_QUERY, ALLSHIFT_QUERY, SHIFT_QUERY } from '../graphql/query.js';
+import { Container } from '@material-ui/core';
 
 const useStyles = makeStyles({
   table: {
@@ -37,11 +37,11 @@ const rows = []
 
 export default function Shift(props) {
   const classes = useStyles();
-  const { shiftData } = props;
+  const { shiftData, departure, dest } = props;
 	
   useEffect(() => {
     // console.log(shiftData)
-		if (shiftData !== undefined) {
+		if (shiftData !== undefined && shiftData.shift !== null) {
       let i;
       for (i = 0; i < (shiftData.shift.length < 5 ? shiftData.shift.length : 5); i++) {
         rows.push(createData(shiftData.shift[i]))
@@ -50,33 +50,49 @@ export default function Shift(props) {
 	})
 
   return (
-    <TableContainer component={Paper} className={classes.root}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Train Number</TableCell>
-            <TableCell align="right">Date</TableCell>
-            <TableCell align="right">Departure Station</TableCell>
-            <TableCell align="right">Departure Time</TableCell>
-            <TableCell align="right">Arrival Station</TableCell>
-            <TableCell align="right">Arrival Time</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.trainNum}>
-              <TableCell component="th" scope="row">
-                {row.trainNum}
-              </TableCell>
-              <TableCell align="right">{`${row.date.year} / ${row.date.month} / ${row.date.day}`}</TableCell>
-              <TableCell align="right">{row.departure}</TableCell>
-              <TableCell align="right">{`${row.departtime.hour}:${row.departtime.minute}`}</TableCell>
-              <TableCell align="right">{row.arrival}</TableCell>
-              <TableCell align="right">{`${row.arrivetime.hour}:${row.arrivetime.minute}`}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Paper>
+      <Container>
+        <Typography variant="h4">
+          from {departure} to {dest}
+        </Typography>
+      </Container>
+    </Paper>
+    // <TableContainer component={Paper} className={classes.root}>
+    //   <Table className={classes.table} aria-label="simple table">
+    //     <TableHead>
+    //       <TableRow>
+    //         from {departure} to {dest}
+    //       </TableRow>
+    //       <TableRow>
+    //         <TableCell>Train Number</TableCell>
+    //         <TableCell align="right">Date</TableCell>
+    //         {/* <TableCell align="right">Departure Station</TableCell> */}
+    //         <TableCell align="right">Departure Time</TableCell>
+    //         {/* <TableCell align="right">Arrival Station</TableCell> */}
+    //         <TableCell align="right">Arrival Time</TableCell>
+    //       </TableRow>
+    //     </TableHead>
+    //     <TableBody>
+    //       {/* <TableRow>
+    //         from {departure} to {dest}
+    //       </TableRow> */}
+    //       {rows.map((row) => (
+    //         <TableRow key={row.trainNum}>
+    //           <TableCell component="th" scope="row">
+    //             {row.trainNum}
+    //           </TableCell>
+    //           <TableCell align="right">{`${row.date.year} / ${row.date.month} / ${row.date.day}`}</TableCell>
+    //           {/* <TableCell align="right">{row.departure}</TableCell> */}
+    //           <TableCell align="right">{`${row.departtime.hour}:${row.departtime.minute}`}</TableCell>
+    //           {/* <TableCell align="right">{row.arrival}</TableCell> */}
+    //           <TableCell align="right">{`${row.arrivetime.hour}:${row.arrivetime.minute}`}</TableCell>
+    //           <TableCell>
+                
+    //           </TableCell>
+    //         </TableRow>
+    //       ))}
+    //     </TableBody>
+    //   </Table>
+    // </TableContainer>
   );
 }

@@ -238,6 +238,8 @@ export default function Booking(props) {
 				</div>
 				<Shift 
 					shiftData={shiftData}
+					departure={_departure}
+					dest={_dest}
 				/>
 			</Paper>
     </div>
