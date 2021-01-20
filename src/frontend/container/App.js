@@ -19,6 +19,8 @@ const theme = createMuiTheme({
   typography: {
     fontFamily: [
 			'Arial Black',
+			'Arial',
+			'American Typewriter',
 			'Roboto',
     ].join(','),
   },
@@ -117,7 +119,7 @@ export default function App() {
 
 	// entered pages
 	const [enterOption, setEnterOption] = useState(false);
-	const [enterBooking, setEnterBooking] = useState(false);
+	const [enterBooking, setEnterBooking] = useState(true);
 	// handling function
 	const handleEnterOption = () => {
 		setSignInOpen(false);
@@ -138,9 +140,13 @@ export default function App() {
 
 	// departure station
 	const [departure, setDeparture] = useState('');
+	const [dest, setDest] = useState('');
 	// handling function
 	const handleDepartureChange = (e) => {
 		setDeparture(e.target.value);
+	}
+	const handleDestChange = (e) => {
+		setDest(e.target.value);
 	}
 
 	// menu drawer
@@ -178,15 +184,15 @@ export default function App() {
 					pwdEmp={pwdEmp}
 				/>
 			</Modal>
+			<MyDrawer
+				opened={menuOpen}
+				signIn={signIn}
+				handleToggleMenu={handleToggleMenu}
+				onLogInClick={handleSignInClick}
+				onLogOutClick={handleLogOut}
+			/>
 			{ !enterOption ? (
 				<>
-					<MyDrawer
-						opened={menuOpen}
-						signIn={signIn}
-						handleToggleMenu={handleToggleMenu}
-						onLogInClick={handleSignInClick}
-						onLogOutClick={handleLogOut}
-					/>
 					<StartUp 
 						onSignInClick={handleSignInClick}
 					/>
@@ -198,9 +204,11 @@ export default function App() {
 					_date={date}
 					_time={time}
 					_departure={departure}
+					_dest={dest}
 					onDateChange={handleDateChange}
 					onTimeChange={handleTimeChange}
 					onDepartureChange={handleDepartureChange}
+					onDestChange={handleDestChange}
 				/>
 			)) }
 		</ThemeProvider>
