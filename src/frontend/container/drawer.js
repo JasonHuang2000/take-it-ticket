@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MyDrawer(props) {
 	
 	const classes = useStyles();
-	const { opened, handleToggleMenu, signIn, onLogInClick, onLogOutClick, username } = props;
+	const { opened, handleToggleMenu, signIn, onLogInClick, onLogOutClick, username, onDeleteClick, onBookOptionClick } = props;
 
 	return (
 		<div className={classes.root}>
@@ -35,6 +35,8 @@ export default function MyDrawer(props) {
 					username={username}
 					onLogInClick={onLogInClick}
 					onLogOutClick={onLogOutClick}
+					onDeleteClick={onDeleteClick}
+					onBookOptionClick={onBookOptionClick}
 				/>
 			</Drawer>
     </div>

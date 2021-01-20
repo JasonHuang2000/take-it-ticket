@@ -10,6 +10,10 @@ import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { useState } from 'react';
+import Collapse from '@material-ui/core/Collapse';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -25,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 	text: {
 		margin: theme.spacing(1,7,1,0),
 	},
-	footer: {
+	footer1: {
 		position: 'fixed',
 		left: '0',
 		bottom: '0',
@@ -33,15 +37,27 @@ const useStyles = makeStyles((theme) => ({
 		height: '70px',
 		margin: '0 18px 20px 18px',
 	},
+	footer2: {
+		position: 'fixed',
+		left: '0',
+		bottom: '0',
+		width: '250px',
+		height: '70px',
+		margin: '0 18px 80px 18px',
+	},
 	button: {
-		height: '100%',
-	}
+		height: '90%',
+	}, 
+	nested: {
+    paddingLeft: theme.spacing(8),
+  },
 }));
 
 export default function Menu(props) {
 
 	const classes = useStyles();
-	const { signIn, onLogInClick, onLogOutClick } = props;
+	const { signIn, onLogInClick, onLogOutClick, onDeleteClick, onBookOptionClick } = props;
+	const [bookOpened, setBookOpened] = useState(false);
 
 	return (
 		<div className={classes.root}>
@@ -70,15 +86,27 @@ export default function Menu(props) {
 				<ListItem 
 					button 
 					key='Book Tickets'
+					onClick={ () => setBookOpened(!bookOpened) }
 				>
 					<ListItemIcon className={classes.icon}>
 						<DoneOutlineIcon />
 					</ListItemIcon>
 					<ListItemText primary='Book Tickets' className={classes.text} />
 				</ListItem>
+				<Collapse in={bookOpened} timeout="auto" unmountOnExit>
+					<List component="div" disablePadding>
+						<ListItem button className={classes.nested} onClick={() => onBookOptionClick(true)}>
+							<ListItemText primary="Reserved Seat" />
+						</ListItem>
+						<ListItem button className={classes.nested} onClick={() => onBookOptionClick(false)}>
+							<ListItemText primary="Non-reserved Seat" />
+						</ListItem>
+					</List>
+				</Collapse>
 				<ListItem 
 					button 
 					key='Shifts Schedule'
+					onClick={ () => onBookOptionClick(true) }
 				>
 					<ListItemIcon className={classes.icon}>
 						<ScheduleIcon />
@@ -87,26 +115,44 @@ export default function Menu(props) {
 				</ListItem>
 				<Divider />
 				{ signIn ? (
-					<ListItem 
-						key='Log In'
-						className={classes.footer}
-					>
-						<Button
-							type="submit"
-							variant="contained"
-							fullWidth
-							color="primary"
-							className={classes.button}
-							startIcon={<LockOutlinedIcon />}
-							onClick={onLogOutClick}
+					<div>
+						<ListItem 
+							key='Delete'
+							className={classes.footer1}
 						>
-								Log Out
-						</Button>
-					</ListItem>
+							<Button
+								type="submit"
+								variant="contained"
+								fullWidth
+								color="secondary"
+								className={classes.button}
+								startIcon={<DeleteIcon />}
+								onClick={onDeleteClick}
+							>
+									Delete Account
+							</Button>
+						</ListItem>
+						<ListItem 
+							key='Log In'
+							className={classes.footer2}
+						>
+							<Button
+								type="submit"
+								variant="contained"
+								fullWidth
+								color="primary"
+								className={classes.button}
+								startIcon={<LockOutlinedIcon />}
+								onClick={onLogOutClick}
+							>
+									Log Out
+							</Button>
+						</ListItem>
+					</div>
 				) : (
 					<ListItem 
 						key='Log Out'
-						className={classes.footer}
+						className={classes.footer1}
 					>
 						<Button
 							type="submit"

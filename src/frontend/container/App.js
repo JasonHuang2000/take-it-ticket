@@ -42,7 +42,8 @@ export default function App() {
 
 	// grqphql
 	const { loading, error, data, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
-	const [createUser] = useMutation(CREATE_USER_MUTATION)
+	const [createUser] = useMutation(CREATE_USER_MUTATION);
+	const [deleteUser] = useMutation(DELETE_USER_MUTATION);
 
 	useEffect(() => {
 		if (data !== undefined) {
@@ -109,7 +110,7 @@ export default function App() {
 
 	// entered pages
 	const [enterOption, setEnterOption] = useState(false);
-	const [enterBooking, setEnterBooking] = useState(true);
+	const [enterBooking, setEnterBooking] = useState(false);
 	// handling function
 	const handleEnterOption = () => {
 		const savedPwd = MD5(password).toString();
@@ -160,6 +161,16 @@ export default function App() {
 			setEnterOption(true);
 		}
 	}
+	const handleDelete = () => {
+		deleteUser({
+			variables: {
+				id: ID,
+			}
+		});
+		setEnterOption(false);
+		setMenuOpen(false);
+		data.user = null;
+	}
 
 	// Date and Time (pre-set to current time)
 	const [date, setDate] = useState(moment().format().slice(0,10));
@@ -175,7 +186,6 @@ export default function App() {
 	// departure station
 	const [departure, setDeparture] = useState('');
 	const [dest, setDest] = useState('');
-	// handling function
 	const handleDepartureChange = (e) => {
 		setDeparture(e.target.value);
 	}
@@ -185,9 +195,17 @@ export default function App() {
 
 	// menu drawer
 	const [menuOpen, setMenuOpen] = useState(false);
-	// handling function
 	const handleToggleMenu = (opened) => {
 		setMenuOpen(opened);
+	}
+
+	// booking-tickets options
+	const [reserved, setReserved] = useState(false);
+	const handleBookOptionClick = (r) => {
+		setMenuOpen(false);
+		setEnterOption(true);
+		setEnterBooking(true);
+		setReserved(r);
 	}
 
 	console.log(signInOpen)
@@ -229,6 +247,8 @@ export default function App() {
 				handleToggleMenu={handleToggleMenu}
 				onLogInClick={handleSignInClick}
 				onLogOutClick={handleLogOut}
+				onDeleteClick={handleDelete}
+				onBookOptionClick={handleBookOptionClick}
 			/>
 			{ !enterOption ? (
 				<>
@@ -237,7 +257,9 @@ export default function App() {
 					/>
 				</>
 			) : ( !enterBooking ? (
-				<Options />
+				<Options 
+					onBookOptionClick={handleBookOptionClick}
+				/>
 			) : (
 				<Booking 
 					_date={date}
@@ -248,6 +270,7 @@ export default function App() {
 					onTimeChange={handleTimeChange}
 					onDepartureChange={handleDepartureChange}
 					onDestChange={handleDestChange}
+					reserved={reserved}
 				/>
 			)) }
 		</ThemeProvider>

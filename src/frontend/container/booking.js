@@ -92,11 +92,12 @@ export default function Booking(props) {
 
   const classes = useStyles();
 	const station = ['Taipei', 'Hsinchu', 'Taichung'];
-	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange } = props;
+	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange, reserved } = props;
 
 	const [opClass1, setOpClass1] = useState(`${classes.before}`);
 	const [opClass2, setOpClass2] = useState(`${classes.before}`);
 	const [opClass3, setOpClass3] = useState(`${classes.before}`);
+	const [shift, setShift] = useState(false);
 	const [departError, setDepartError] = useState(false);
 	const [destError, setDestError] = useState(false);
 	const [sameError, setSameError] = useState(false);
@@ -116,8 +117,9 @@ export default function Booking(props) {
 				setDepartError(true);
 				setDestError(true);
 				setSameError(true);
-			} else {
-				setOpClass3(`${classes.after}`);
+			} else if ( reserved ) {
+				setShift(true);
+				setTimeout(() => setOpClass3(`${classes.after}`), 100);
 			}
 		}
 	}
@@ -225,17 +227,21 @@ export default function Booking(props) {
 					</Button>
 				</div>
 			</Paper>
-			<Paper className={`${classes.shiftSection} ${opClass3}`}>
-				<div className={classes.returnContainer}>
-					<Button
-						type="submit"
-						variant="outlined"
-					>
-						Choose Again
-					</Button>
-				</div>
-				<Shift />
-			</Paper>
+			{ shift ? (
+				<Paper className={`${classes.shiftSection} ${opClass3}`}>
+					<div className={classes.returnContainer}>
+						<Button
+							type="submit"
+							variant="outlined"
+						>
+							Choose Again
+						</Button>
+					</div>
+					<Shift />
+				</Paper>
+			) : ( 
+				<> </>
+			) }
     </div>
   );
 }

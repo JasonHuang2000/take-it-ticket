@@ -17,17 +17,19 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(5),
 		textAlign: 'center',
 		margin: 'auto',
+		fontSize: '40px',
+		fontWeight: 'bold',
 	},
 	icon: {
 		fontSize: '80px',
 		display: 'block',
 		margin: 'auto',
-		marginTop: theme.spacing(5),
+		marginTop: theme.spacing(4),
 	},
 	content: {
 		fontSize: '16px',
 		width: '80%',
-		marginTop: theme.spacing(8),
+		marginTop: theme.spacing(6),
 		margin: 'auto',
 		textAlign: 'center',
 	},
@@ -64,7 +66,7 @@ export default function Option(props) {
 	
 	return (
 		<Container className={classes.root} >
-			<Typography variant="h4" className={classes.title}>
+			<Typography variant="h3" className={classes.title}>
 				{info.title}
 			</Typography>
 			{	info.idx === 0 ? ( 
@@ -84,6 +86,7 @@ export default function Option(props) {
 						fullWidth
 						color="primary"
 						className={classes.upbutton}
+						onClick={ () => props.onBookOptionClick(true) }
 					>
 						Reserved Seat
 					</Button>
@@ -93,10 +96,22 @@ export default function Option(props) {
 						fullWidth
 						color="secondary"
 						className={classes.button}
+						onClick={ () => props.onBookOptionClick(false) }
 					>
 						Non-reserved Seat
 					</Button>
 				</>
+			) : ( info.idx === 0 ? (
+				<Button
+					type="submit"
+					variant="contained"
+					fullWidth
+					color="default"
+					className={classes.button}
+					onClick={ () => props.onBookOptionClick(true) }
+				>
+					GO!
+				</Button>
 			) : (
 				<Button
 					type="submit"
@@ -107,7 +122,7 @@ export default function Option(props) {
 				>
 					GO!
 				</Button>
-			)}
+			))}
 		</Container>
 	);
 }

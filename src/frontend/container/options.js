@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function Options() {
+export default function Options(props) {
 
 	const classes = useStyles();
 	const optionInfos = [{
@@ -71,7 +71,10 @@ export default function Options() {
 					setTimeout(() => changePaperClass(), 10);
 					return (
 						<Paper elevation={3} className={`${classes.optionContainer} ${info.Name} ${paperClass}`}>
-							<Option optionInfo={info}/>
+							<Option 
+								optionInfo={info}
+								onBookOptionClick={props.onBookOptionClick}
+							/>
 						</Paper>
 					);
 				}) 
