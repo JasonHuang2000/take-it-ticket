@@ -23,7 +23,8 @@
     "rebass": "^4.0.7",
     "socket.io-client": "^3.0.3",
     "web-vitals": "^0.2.4",
-    "websocket": "^1.0.32"
+    "websocket": "^1.0.32",
+    "crypto-js": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

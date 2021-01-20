@@ -65,6 +65,8 @@ export default function SignUpBody(props) {
 				</Typography>
 				<form className={classes.form} noValidate>
 					<TextField
+						error={props.nameEmp}
+						helperText={props.nameEmp? "Please enter your name" : ""}
 						variant="outlined"
 						margin="normal"
 						required
@@ -90,6 +92,7 @@ export default function SignUpBody(props) {
 					<FormControl variant="outlined" fullWidth required className={classes.signbox}>
 						<InputLabel htmlFor="password">Password</InputLabel>
 						<OutlinedInput
+						// error={props.pwdEmp}
 						margin="normal"
 						required
 						fullWidth
@@ -116,7 +119,7 @@ export default function SignUpBody(props) {
 						variant="contained"
 						color="primary"
 						className={classes.submit}
-						onClick={props.onBackClick}
+						onClick={props.onSignUpClick}
 					>
 						SIGN UP
 					</Button>

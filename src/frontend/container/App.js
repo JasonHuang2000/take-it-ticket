@@ -9,8 +9,11 @@ import Modal from '@material-ui/core/Modal';
 import SignIn from '../component/signIn';
 import SignUp from '../component/signUp';
 
+import MD5 from 'crypto-js/md5'
+
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { ALLUSER_QUERY, USER_QUERY, FINDSEAT_QUERY, ALLSHIFT_QUERY, SHIFT_QUERY } from '../graphql/query.js';
+import { CREATE_SHIFT_MUTATION, CREATE_USER_MUTATION, DELETE_SHIFT_MUTATION, DELETE_USER_MUTATION, UPDATE_SEAT_MUTATION } from '../graphql/mutation.js'
 
 const theme = createMuiTheme({
   typography: {
@@ -29,9 +32,12 @@ export default function App() {
 	const [password, setPassword] = useState('');
 	const [signIn, setSignIn] = useState(false);
 	const [IDtaken, setIDtaken] = useState(false)
+	const [nameEmp, setnameEmp] = useState(false)
+	const [pwdEmp, setpwdEmp] = useState(false)
 
 	// grqphql
 	const { loading, error, data, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
+	const [createUser] = useMutation(CREATE_USER_MUTATION)
 
 	useEffect(() => {
 		if (data !== undefined) {
@@ -40,6 +46,9 @@ export default function App() {
 			} else {
 				setIDtaken(true);
 			}
+		}
+		if (name !== "") {
+			setnameEmp(false)
 		}
 	})
 
@@ -85,6 +94,23 @@ export default function App() {
 	}
 	const handleSignUpClose = () => {
 		setSignUpOpen(false);
+	}
+	const handleSignUp = () => {
+		if (name === "") {
+			setnameEmp(true)
+		}
+		if (password === "") {
+			setpwdEmp(false)
+		}
+		if (!IDtaken && !nameEmp && !pwdEmp) {
+			const savedPwd = MD5(password);
+
+			createUser({variables: {
+				name: name,
+				userid: ID,
+				password: savedPwd,
+			}})
+		}
 	}
 
 	// entered pages
@@ -141,10 +167,13 @@ export default function App() {
 			>
 				<SignUp
 					onBackClick={handleSignInClick}
+					onSignUpClick={handleSignUp}
 					onNameChange={handleNameChange}
 					onIDChange={handleIDChange}
 					onPswdChange={handlePswdChange}
 					IDtaken={IDtaken}
+					nameEmp={nameEmp}
+					pwdEmp={pwdEmp}
 				/>
 			</Modal>
 			{ !enterOption ? (
