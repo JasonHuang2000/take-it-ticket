@@ -51,7 +51,7 @@ export default function Menu(props) {
 					className={classes.title}
 				>
 					<ListItemText 
-						primary='Options' 
+						primary={ signIn ? `Hi ${props.username} !` : `Menu` }
 						primaryTypographyProps={{
 							variant: 'h5',
 						}}
