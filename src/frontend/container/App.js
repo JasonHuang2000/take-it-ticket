@@ -52,7 +52,7 @@ export default function App() {
 	const { loading, error, data : userData, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
 	const [createUser] = useMutation(CREATE_USER_MUTATION)
 	const [deleteUser] = useMutation(DELETE_USER_MUTATION);
-	const { data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
+	const { loading: shiftLoding, data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
 		// date: {
 		year: parseInt(date.slice(0, 4)),
 		month: parseInt(date.slice(5, 7)),
@@ -312,6 +312,7 @@ export default function App() {
 					setDest={setDest}
 					shift={shift}
 					setShift={setShift}
+					shiftLoding={shiftLoding}
 					setClass={{
 						one: opClass1, 
 						two: opClass2,

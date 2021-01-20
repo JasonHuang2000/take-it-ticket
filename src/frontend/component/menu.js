@@ -13,7 +13,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useState } from 'react';
 import Collapse from '@material-ui/core/Collapse';
-import RemoveIcon from '@material-ui/icons/Remove';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

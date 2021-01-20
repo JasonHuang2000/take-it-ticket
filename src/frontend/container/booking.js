@@ -99,13 +99,12 @@ export default function Booking(props) {
 
   const classes = useStyles();
 	const station = ['Taipei', 'Hsinchu', 'Taichung'];
-	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange, reserved, shiftData, setDest, shift, setShift, setClass } = props;
+	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange, reserved, shiftData, setDest, shift, setShift, setClass, shiftLoding } = props;
 	const { one, two, three, setOne, setTwo, setThree } = setClass;
 
 	const [departError, setDepartError] = useState(false);
 	const [destError, setDestError] = useState(false);
 	const [sameError, setSameError] = useState(false);
-	const [enterTwo, setEnterTwo] = useState(false);
 	const topRef = useRef(null);
 	const bottomRef = useRef(null)
 
@@ -128,13 +127,13 @@ export default function Booking(props) {
 				setSameError(true);
 			} else {
 				setTwo(`${classes.after}`);
-				setEnterTwo(true);
 			}
 		}
 	}
 	const handleTimeClick = () => {
 		if ( reserved ) {
 			setShift(true);
+			while ( shiftLoding ) {}
 			setTimeout(() => { 
 				bottomRef.current.scrollIntoView()
 				setThree(`${classes.after}`);
@@ -143,7 +142,6 @@ export default function Booking(props) {
 	}
 	const handleBackClick = () => {
 		setTwo('');
-		setEnterTwo(false);
 	}
 	const handleResetClick = () => {
 		topRef.current.scrollIntoView();
@@ -206,7 +204,7 @@ export default function Booking(props) {
 							type="submit"
 							variant="contained"
 							fullWidth
-							disabled={enterTwo}
+							disabled={ two === classes.after }
 							color="default"
 							className={classes.button}
 							onClick={handleLocationClick}
