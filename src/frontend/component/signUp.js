@@ -65,6 +65,8 @@ export default function SignUpBody(props) {
 				</Typography>
 				<form className={classes.form} noValidate>
 					<TextField
+						error={props.nameEmp}
+						helperText={props.nameEmp? "Please enter your name" : ""}
 						variant="outlined"
 						margin="normal"
 						required
@@ -116,7 +118,7 @@ export default function SignUpBody(props) {
 						variant="contained"
 						color="primary"
 						className={classes.submit}
-						onClick={props.onBackClick}
+						onClick={props.onSignUpClick}
 					>
 						SIGN UP
 					</Button>

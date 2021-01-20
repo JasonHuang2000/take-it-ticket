@@ -74,8 +74,8 @@ export default function SignIn(props) {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
-            // error
-            // helperText="Incorrect entry."
+            error={props.wrongID}
+						helperText={props.wrongID? "ID does not exist." : ""}
             variant="outlined"
             margin="normal"
             required

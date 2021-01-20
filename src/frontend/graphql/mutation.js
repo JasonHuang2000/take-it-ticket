@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from 'apollo-boost'
 
 export const CREATE_USER_MUTATION = gql`
     mutation createUser(
@@ -8,7 +8,7 @@ export const CREATE_USER_MUTATION = gql`
     ) {
         createUser(
             data: {
-                name: $Name
+                name: $name
                 userid: $userid
                 password: $password
             }
