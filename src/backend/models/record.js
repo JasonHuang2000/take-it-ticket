@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import SeatSchema from './seat'
+import SeatSchema from './seat.js'
 
 const Schema = mongoose.Schema
 
