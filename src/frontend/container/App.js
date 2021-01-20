@@ -185,10 +185,6 @@ export default function App() {
 				}
 			})
 
-			// setName("")
-			// setID("")
-			// setPassword("")
-			
 			// get in option
 			setSignIn(true);
 			setSignInOpen(false);
@@ -234,7 +230,21 @@ export default function App() {
 		setEnterOption(true);
 		setEnterBooking(true);
 		setReserved(r);
+		setOpClass1({ opacity: '0' });
+		setOpClass2({ opacity: '0' });
+		setOpClass3({ opacity: '0' });
+		setShift(false);
+		setDest('');
+		setDeparture('');
+		setDate(moment().format().slice(0,10));
+		setTime(moment().format().slice(11,16));
 	}
+
+	// className for booking page
+	const [opClass1, setOpClass1] = useState({ opacity: '0' });
+	const [opClass2, setOpClass2] = useState({ opacity: '0' });
+	const [opClass3, setOpClass3] = useState({ opacity: '0' });
+	const [shift, setShift] = useState(false);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -300,6 +310,16 @@ export default function App() {
 					reserved={reserved}
 					shiftData={shiftData}
 					setDest={setDest}
+					shift={shift}
+					setShift={setShift}
+					setClass={{
+						one: opClass1, 
+						two: opClass2,
+						three: opClass3,
+						setOne: setOpClass1,
+						setTwo: setOpClass2,
+						setThree: setOpClass3,
+					}}
 				/>
 			)) }
 		</ThemeProvider>

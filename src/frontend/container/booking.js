@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 		left: '0',
 		width: '100%',
 		height: '100%',
-		backgroundColor: 'rgb(230,230,230)',
+		backgroundColor: 'rgb(200,200,200)',
 		textAlign: 'center',
 		display: 'block',
 		scrollBehavior: 'smooth',
@@ -57,13 +57,9 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 		borderRadius: '10px',
 		justifyContent: 'center',
-		transition: 'opacity .5s ease-in-out',
-	},
-	before: {
 		opacity: '0',
-	},
-	after: {
-		opacity: '1',
+		transition: 'opacity .5s ease-in-out',
+		backgroundColor: 'rgb(230,230,230)',
 	},
   textField: {
 		margin: theme.spacing(0,5,0,5),
@@ -72,9 +68,10 @@ const useStyles = makeStyles((theme) => ({
 		// flex: '1',
   },
 	subtitle: {
-		margin: theme.spacing(2,2,3,3),
+		margin: theme.spacing(2,3,3,3),
 		height: '10%',
 		width: '100%',
+		textAlign: 'center',
 	}, 
 	buttonWrapper: {
 		width: '100%',
@@ -84,7 +81,13 @@ const useStyles = makeStyles((theme) => ({
 	button: {
 		width: '120px',
 		height: '100%',
-		margin: theme.spacing(1,7,1,5),
+		margin: theme.spacing(1,2,1,2),
+	}, 
+	returnContainer: {
+		width: '30%',
+		position: 'absolute',
+		top: '785px',
+		left: '140px',
 	}
 }));
 
@@ -92,18 +95,16 @@ export default function Booking(props) {
 
   const classes = useStyles();
 	const station = ['Taipei', 'Hsinchu', 'Taichung'];
-	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange, reserved, shiftData, setDest } = props;
+	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange, reserved, shiftData, setDest, shift, setShift, setClass } = props;
+	const { one, two, three, setOne, setTwo, setThree } = setClass;
 
-	const [opClass1, setOpClass1] = useState(`${classes.before}`);
-	const [opClass2, setOpClass2] = useState(`${classes.before}`);
-	const [opClass3, setOpClass3] = useState(`${classes.before}`);
-	const [shift, setShift] = useState(false);
 	const [departError, setDepartError] = useState(false);
 	const [destError, setDestError] = useState(false);
 	const [sameError, setSameError] = useState(false);
+	const [enterTwo, setEnterTwo] = useState(false);
+
 	const handleLocationClick = () => {
 		setDest(_dest)
-
 		if ( _departure === '' ) {
 			setDepartError(true);
 		} else {
@@ -119,59 +120,33 @@ export default function Booking(props) {
 				setDepartError(true);
 				setDestError(true);
 				setSameError(true);
-			} else if ( reserved ) {
-				setShift(true);
-				setTimeout(() => setOpClass3(`${classes.after}`), 100);
+			} else {
+				setTwo({ opacity: '1' });
+				setEnterTwo(true);
 			}
 		}
 	}
+	const handleTimeClick = () => {
+		if ( reserved ) {
+			setShift(true);
+			setTimeout(() => setThree({ opacity: '1' }), 100);
+		}
+	}
+	const handleBackClick = () => {
+		setTwo({ opacity: '0' });
+		setEnterTwo(false);
+	}
+	const handleResetClick = () => {
+		setShift(false);
+		handleBackClick();
+	}
 
-	setTimeout(() => setOpClass1(`${classes.after}`), 10);
+	setTimeout(() => setOne({ opacity: '1' }), 10);
 
   return (
     <div className={classes.container}>
-			<Paper className={`${classes.section} ${classes.time} ${opClass1}`}>
-				<Typography variant="h6" className={classes.subtitle}>Select Date and Time</Typography> <hr />
-				<TextField
-					id="date"
-					label="Departure Date"
-					type="date"
-					value={_date}
-					onChange={onDateChange}
-					className={classes.textField}
-					InputLabelProps={{
-						shrink: true,
-					}}
-				/> 
-				<TextField
-					id="time"
-					label="Departure Time"
-					type="time"
-					value={_time}
-					onChange={onTimeChange}
-					className={classes.textField}
-					InputLabelProps={{
-						shrink: true,
-					}}
-					inputProps={{
-						step: 300, // 5 min
-					}}
-				/>
-				<div className={classes.buttonWrapper}>
-					<Button
-							type="submit"
-							variant="contained"
-							fullWidth
-							disabled={ opClass2 === classes.after }
-							color="default"
-							className={classes.button}
-							onClick={() => setOpClass2(`${classes.after}`)}
-					>
-						Next
-					</Button>
-				</div>
-			</Paper>
-			<Paper className={`${classes.section} ${classes.location} ${opClass2}`}>
+
+			<Paper className={`${classes.section} ${classes.time}`} style={one}>
 				<Typography variant="h6" className={classes.subtitle}>Select Departure and Destination</Typography>
 				<TextField
 					id="departure"
@@ -221,23 +196,81 @@ export default function Booking(props) {
 							type="submit"
 							variant="contained"
 							fullWidth
-							color="primary"
+							disabled={enterTwo}
+							color="default"
 							className={classes.button}
 							onClick={handleLocationClick}
+					>
+						Next
+					</Button>
+				</div>
+			</Paper>
+
+			<Paper className={`${classes.section} ${classes.location}`} style={two}>
+				<Typography variant="h6" className={classes.subtitle}>Select Date and Time</Typography> <hr />
+				<TextField
+					id="date"
+					label="Departure Date"
+					type="date"
+					value={_date}
+					onChange={onDateChange}
+					className={classes.textField}
+					InputLabelProps={{
+						shrink: true,
+					}}
+				/> 
+				<TextField
+					id="time"
+					label="Departure Time"
+					type="time"
+					value={_time}
+					onChange={onTimeChange}
+					className={classes.textField}
+					InputLabelProps={{
+						shrink: true,
+					}}
+					inputProps={{
+						step: 300, // 5 min
+					}}
+				/>
+				<div className={classes.buttonWrapper}>
+					<Button
+							type="submit"
+							variant="contained"
+							fullWidth
+							color="default"
+							className={classes.button}
+							onClick={handleBackClick}
+					>
+						Back
+					</Button>
+					<Button
+							type="submit"
+							variant="contained"
+							fullWidth
+							color="primary"
+							className={classes.button}
+							onClick={handleTimeClick}
 					>
 						Comfirm
 					</Button>
 				</div>
 			</Paper>
+
 			{ shift ? (
-				<Paper className={`${classes.shiftSection} ${opClass3}`}>
+				<Paper className={classes.shiftSection} style={three}>
 					<div className={classes.returnContainer}>
 						<Button
 							type="submit"
+							color="secondary"
 							variant="outlined"
+							onClick={handleResetClick}
 						>
-							Choose Again
+							Reset
 						</Button>
+					</div>
+					<div className={classes.subtitle}>
+						<Typography variant="h5" className={classes.subtitle} style={{ width: 'auto' }}>Choose Shift</Typography> 
 					</div>
 					<Shift />
 				</Paper>
