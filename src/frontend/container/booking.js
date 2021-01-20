@@ -92,7 +92,7 @@ export default function Booking(props) {
 
   const classes = useStyles();
 	const station = ['Taipei', 'Hsinchu', 'Taichung'];
-	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange } = props;
+	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange, shiftData, setDest } = props;
 
 	const [opClass1, setOpClass1] = useState(`${classes.before}`);
 	const [opClass2, setOpClass2] = useState(`${classes.before}`);
@@ -101,6 +101,8 @@ export default function Booking(props) {
 	const [destError, setDestError] = useState(false);
 	const [sameError, setSameError] = useState(false);
 	const handleLocationClick = () => {
+		setDest(_dest)
+
 		if ( _departure === '' ) {
 			setDepartError(true);
 		} else {
@@ -234,7 +236,9 @@ export default function Booking(props) {
 						Choose Again
 					</Button>
 				</div>
-				<Shift />
+				<Shift 
+					shiftData={shiftData}
+				/>
 			</Paper>
     </div>
   );

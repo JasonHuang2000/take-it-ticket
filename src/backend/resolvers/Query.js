@@ -7,6 +7,9 @@ const Query = {
 		return output
 	},
 	async shift(parent, args, { Shift }, info) {
+		if (args.query.departure === "" || args.query.arrival === "") {
+			return null
+		}
 		const output = await Shift.find({ $and: [ 
 			{
 				departure: args.query.departure,
@@ -15,8 +18,7 @@ const Query = {
 				"schedule.date.month": args.query.date.month,
 				"schedule.date.day": args.query.date.day
 			}, {
-				"schedule.depart.hour": { $gte: args.query.time.hour },},{
-				"schedule.depart.minute": { $gte: args.query.time.minute },
+				"schedule.depart.hour": { $gte: args.query.time.hour },
 			},
 		]})
 

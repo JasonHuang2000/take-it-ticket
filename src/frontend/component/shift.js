@@ -8,6 +8,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import { useEffect } from 'react';
+import { useQuery, useMutation } from '@apollo/react-hooks'
+import { ALLUSER_QUERY, USER_QUERY, FINDSEAT_QUERY, ALLSHIFT_QUERY, SHIFT_QUERY } from '../graphql/query.js';
+
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -18,43 +22,57 @@ const useStyles = makeStyles({
 	}
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(outdata) {
+  const trainNum = outdata.trainNum
+  const date = outdata.schedule.date
+  const departure = outdata.departure
+  const arrival = outdata.arrival
+  const departtime = outdata.schedule.depart
+  const arrivetime = outdata.schedule.arrive
+  return { trainNum, date, departure, departtime, arrival, arrivetime };
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+// const rows = [{trainNum: 1, date: {year: 2020, month: 12, day: 12}, departure: "a", arrival: "b", departtime: 1010, arrivetime: 1110}];
+const rows = []
 
-export default function BasicTable() {
+export default function Shift(props) {
   const classes = useStyles();
+  const { shiftData } = props;
+	
+  useEffect(() => {
+    // console.log(shiftData)
+		if (shiftData !== undefined) {
+      let i;
+      for (i = 0; i < (shiftData.shift.length < 5 ? shiftData.shift.length : 5); i++) {
+        rows.push(createData(shiftData.shift[i]))
+      }
+    }
+	})
 
   return (
     <TableContainer component={Paper} className={classes.root}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>Train Number</TableCell>
+            <TableCell align="right">Date</TableCell>
+            <TableCell align="right">Departure Station</TableCell>
+            <TableCell align="right">Departure Time</TableCell>
+            <TableCell align="right">Arrival Station</TableCell>
+            <TableCell align="right">Arrival Time</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.name}>
+            <TableRow key={row.trainNum}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.trainNum}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{`${row.date.year} / ${row.date.month} / ${row.date.day}`}</TableCell>
+              <TableCell align="right">{row.departure}</TableCell>
+              <TableCell align="right">{`${row.departtime.hour}:${row.departtime.minute}`}</TableCell>
+              <TableCell align="right">{row.arrival}</TableCell>
+              <TableCell align="right">{`${row.arrivetime.hour}:${row.arrivetime.minute}`}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -62,4 +80,3 @@ export default function BasicTable() {
     </TableContainer>
   );
 }
-

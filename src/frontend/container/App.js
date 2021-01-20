@@ -40,13 +40,47 @@ export default function App() {
 	const [wrongPwd, setWrongPwd] = useState(false)
 	const [wrongID, setWrongID] = useState(false)
 
+	// Date and Time (pre-set to current time)
+	const [date, setDate] = useState(moment().format().slice(0,10));
+	const [time, setTime] = useState(moment().format().slice(11,16));
+
+	// departure station
+	const [departure, setDeparture] = useState('');
+	const [dest, setDest] = useState('');
+
 	// grqphql
-	const { loading, error, data, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
+	const { loading, error, data : userData, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
 	const [createUser] = useMutation(CREATE_USER_MUTATION)
+	const { data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
+		// date: {
+		year: parseInt(date.slice(0, 4)),
+		month: parseInt(date.slice(5, 7)),
+		day: parseInt(date.slice(8, 10)),
+		// },
+		// time: {
+		hour: parseInt(time.slice(0, 2)),
+		minute: parseInt(time.slice(3, 5)),
+		// },
+		departure: departure,
+		arrival: dest,
+	}})
+	// const { data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
+	// 	// date: {
+	// 		year: 2020,
+	// 		month: 2,
+	// 		day: 14,
+	// 	// },
+	// 	// time: {
+	// 		hour: 10,
+	// 		minute: 10,
+	// 	// },
+	// 	departure: "Taipei",
+	// 	arrival: "Taichung",
+	// }})
 
 	useEffect(() => {
-		if (data !== undefined) {
-			if (data.user === null) {
+		if (userData !== undefined) {
+			if (userData.user === null) {
 				setIDtaken(false);
 			} else {
 				setIDtaken(true);
@@ -113,19 +147,19 @@ export default function App() {
 	// handling function
 	const handleEnterOption = () => {
 		const savedPwd = MD5(password).toString();
-		if (data.user === null) {
+		if (userData.user === null) {
 			setWrongID(true)
 			setSignInOpen(true);
-		} else if (data.user.password !== savedPwd) {
+		} else if (userData.user.password !== savedPwd) {
 			setWrongID(false)
 			setWrongPwd(true)
 			setSignInOpen(true);
-		} else if (data.user.userid === ID && savedPwd === data.user.password) {
+		} else if (userData.user.userid === ID && savedPwd === userData.user.password) {
 			setSignIn(true)
 			setSignInOpen(false);
 			setSignUpOpen(false);
 			setEnterOption(true);
-			setName(data.user.name);
+			setName(userData.user.name);
 		}
 	}
 	const handleSignUp = () => {
@@ -161,9 +195,6 @@ export default function App() {
 		}
 	}
 
-	// Date and Time (pre-set to current time)
-	const [date, setDate] = useState(moment().format().slice(0,10));
-	const [time, setTime] = useState(moment().format().slice(11,16));
 	// handling function
 	const handleDateChange = (e) => {
 		setDate(e.target.value);
@@ -171,11 +202,6 @@ export default function App() {
 	const handleTimeChange = (e) => {
 		setTime(e.target.value);
 	}
-
-	// departure station
-	const [departure, setDeparture] = useState('');
-	const [dest, setDest] = useState('');
-	// handling function
 	const handleDepartureChange = (e) => {
 		setDeparture(e.target.value);
 	}
@@ -190,7 +216,6 @@ export default function App() {
 		setMenuOpen(opened);
 	}
 
-	console.log(signInOpen)
 	return (
 		<ThemeProvider theme={theme}>
 			<Modal
@@ -248,6 +273,8 @@ export default function App() {
 					onTimeChange={handleTimeChange}
 					onDepartureChange={handleDepartureChange}
 					onDestChange={handleDestChange}
+					shiftData={shiftData}
+					setDest={setDest}
 				/>
 			)) }
 		</ThemeProvider>

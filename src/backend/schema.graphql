@@ -1,6 +1,6 @@
 type Query {
   allShift: [Shift]
-  shift(query: queryShift!): [Shift]
+  shift(query: queryShift): [Shift]
   findSeat(query: querySeat!): Seat
   allUser: [User]
   user(id: String!): User
