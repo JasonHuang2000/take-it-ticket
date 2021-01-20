@@ -9,7 +9,8 @@ type Query {
 type Mutation {
   createUser(data: creUser!): User
   createShift(data: creShift!): Shift
-  updateSeat(data: upSeat!) : Seat
+  updateSeat(data: upSeat) : Seat
+  updateRecord(data: upRecord) : User
   deleteUser(id: String!): User
   deleteShift(id: Int!): Shift
 }
@@ -58,6 +59,14 @@ input upSeat {
   available: Boolean
 }
 
+input upRecord {
+  userid: String
+  trainNum: Int
+  carriage: Int
+  seatNum: Int
+  available: Boolean
+}
+
 # for query shift
 input queryShift {
   date: dateIn
@@ -81,9 +90,8 @@ type User {
 }
 
 type Record {
-  total: Int
   trainNum: Int
-  seats: [Seat]
+  seat: Seat
 }
 
 # the time and date info for a shift

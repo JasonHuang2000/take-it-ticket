@@ -130,6 +130,8 @@ export default function Booking(props) {
 		if ( reserved ) {
 			setShift(true);
 			setTimeout(() => setThree({ opacity: '1' }), 100);
+		} else {
+			
 		}
 	}
 	const handleBackClick = () => {

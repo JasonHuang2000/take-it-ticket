@@ -62,6 +62,33 @@ const Mutation = {
 			available: args.data.available
 		}
 	},
+	async updateRecord(parent, args, { User }, info) {
+		const user = await User.findOne({
+			userid: args.data.userid
+		})
+
+		user.history.push({
+			trainNum: args.data.trainNum,
+			seat: {
+				carriage: args.data.carriage,
+				seatNum: args.data.seatNum,
+				available: args.data.available,
+			}
+		})
+
+		// clear history
+		// user.history = []
+
+		await User.updateOne({
+			userid: args.data.userid
+		}, {
+			$set: {
+				history: user.history
+			}
+		})
+
+		return user
+	},
 	async deleteUser(parent, args, { User }, info) {
 		const out = await User.findOne({
 			userid: args.id
