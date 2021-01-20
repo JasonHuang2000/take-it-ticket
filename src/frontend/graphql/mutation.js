@@ -17,9 +17,8 @@ export const CREATE_USER_MUTATION = gql`
             userid
             password
             history {
-                total
                 trainNum
-                seats {
+                seat {
                     carriage
                     seatNum
                     available
@@ -32,21 +31,13 @@ export const CREATE_USER_MUTATION = gql`
 export const CREATE_SHIFT_MUTATION = gql`
     mutation createShift(
         $trainNum: Int!
-        # schedule: {
-            # date: {
-                $year: Int!
-                $month: Int!
-                $day: Int!
-            # }
-            # depart: {
-                $hourd: Int!
-                $minuted: Int!
-            # }
-            # arrive: {
-                $houra: Int!
-                $minutea: Int!
-            # }
-        # }
+        $year: Int!
+        $month: Int!
+        $day: Int!
+        $hourd: Int!
+        $minuted: Int!
+        $houra: Int!
+        $minutea: Int!
         $departure: String
         $arrival: String
     ) {
@@ -119,6 +110,37 @@ export const UPDATE_SEAT_MUTATION = gql`
     }
 `
 
+export const UPDATE_RECORD_MUTATION = gql`
+    mutation updateRecord(
+        $userid: String
+        $trainNum: Int
+        $carriage: Int
+        $seatNum: Int
+        $available: Boolean
+    ) {
+        updateRecord(
+            data: {
+                userid: $userid
+                trainNum: $trainNum
+                carriage: $carriage
+                seatNum: $seatNum
+                available: $available
+        }) {
+            name
+            userid
+            password
+            history {
+                trainNum
+                seat {
+                    carriage
+                    seatNum
+                    available
+                }
+            }
+        }
+    }
+`
+
 export const DELETE_USER_MUTATION = gql`
     mutation deleteUser($id: String!) {
         deleteUser(id: $id) {
@@ -126,9 +148,8 @@ export const DELETE_USER_MUTATION = gql`
             userid
             password
             history {
-                total
                 trainNum
-                seats {
+                seat {
                     carriage
                     seatNum
                     available
