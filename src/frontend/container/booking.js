@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 		borderRadius: '10px',
 		justifyContent: 'center',
+		opacity: '0',
 		transition: 'opacity .5s ease-in-out',
 	},
 	time : {
@@ -59,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
 		opacity: '0',
 		transition: 'opacity .5s ease-in-out',
 		backgroundColor: 'rgb(230,230,230)',
+	},
+	after: {
+		opacity: '1',
 	},
   textField: {
 		margin: theme.spacing(0,5,0,5),
@@ -102,6 +106,8 @@ export default function Booking(props) {
 	const [destError, setDestError] = useState(false);
 	const [sameError, setSameError] = useState(false);
 	const [enterTwo, setEnterTwo] = useState(false);
+	const topRef = useRef(null);
+	const bottomRef = useRef(null)
 
 	const handleLocationClick = () => {
 		setDest(_dest)
@@ -121,7 +127,7 @@ export default function Booking(props) {
 				setDestError(true);
 				setSameError(true);
 			} else {
-				setTwo({ opacity: '1' });
+				setTwo(`${classes.after}`);
 				setEnterTwo(true);
 			}
 		}
@@ -129,24 +135,28 @@ export default function Booking(props) {
 	const handleTimeClick = () => {
 		if ( reserved ) {
 			setShift(true);
-			setTimeout(() => setThree({ opacity: '1' }), 100);
+			setTimeout(() => { 
+				bottomRef.current.scrollIntoView()
+				setThree(`${classes.after}`);
+			}, 10);
 		}
 	}
 	const handleBackClick = () => {
-		setTwo({ opacity: '0' });
+		setTwo('');
 		setEnterTwo(false);
 	}
 	const handleResetClick = () => {
-		setShift(false);
+		topRef.current.scrollIntoView();
+		setTimeout(() => setShift(false), 100);
 		handleBackClick();
 	}
 
-	setTimeout(() => setOne({ opacity: '1' }), 10);
+	setTimeout(() => setOne(`${classes.after}`), 10);
 
   return (
     <div className={classes.container}>
 
-			<Paper className={`${classes.section} ${classes.time}`} style={one}>
+			<Paper className={`${classes.section} ${classes.time} ${one}`} ref={topRef}>
 				<Typography variant="h6" className={classes.subtitle}>Select Departure and Destination</Typography>
 				<TextField
 					id="departure"
@@ -206,7 +216,7 @@ export default function Booking(props) {
 				</div>
 			</Paper>
 
-			<Paper className={`${classes.section} ${classes.location}`} style={two}>
+			<Paper className={`${classes.section} ${classes.location} ${two}`}>
 				<Typography variant="h6" className={classes.subtitle}>Select Date and Time</Typography> <hr />
 				<TextField
 					id="date"
@@ -258,7 +268,7 @@ export default function Booking(props) {
 			</Paper>
 
 			{ shift ? (
-				<Paper className={classes.shiftSection} style={three}>
+				<Paper className={`${classes.shiftSection} ${three}`} ref={bottomRef}>
 					<div className={classes.header}>
 						<div className={classes.returnContainer}>
 							<Button

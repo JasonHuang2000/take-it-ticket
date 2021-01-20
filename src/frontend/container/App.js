@@ -230,9 +230,9 @@ export default function App() {
 		setEnterOption(true);
 		setEnterBooking(true);
 		setReserved(r);
-		setOpClass1({ opacity: '0' });
-		setOpClass2({ opacity: '0' });
-		setOpClass3({ opacity: '0' });
+		setOpClass1('');
+		setOpClass2('');
+		setOpClass3('');
 		setShift(false);
 		setDest('');
 		setDeparture('');
@@ -241,9 +241,9 @@ export default function App() {
 	}
 
 	// className for booking page
-	const [opClass1, setOpClass1] = useState({ opacity: '0' });
-	const [opClass2, setOpClass2] = useState({ opacity: '0' });
-	const [opClass3, setOpClass3] = useState({ opacity: '0' });
+	const [opClass1, setOpClass1] = useState('');
+	const [opClass2, setOpClass2] = useState('');
+	const [opClass3, setOpClass3] = useState('');
 	const [shift, setShift] = useState(false);
 
 	return (
