@@ -52,7 +52,7 @@ export default function App() {
 	const { loading, error, data : userData, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
 	const [createUser] = useMutation(CREATE_USER_MUTATION)
 	const [deleteUser] = useMutation(DELETE_USER_MUTATION);
-	const { data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
+	const { loading: shiftLoding, data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
 		// date: {
 		year: parseInt(date.slice(0, 4)),
 		month: parseInt(date.slice(5, 7)),
@@ -230,9 +230,9 @@ export default function App() {
 		setEnterOption(true);
 		setEnterBooking(true);
 		setReserved(r);
-		setOpClass1({ opacity: '0' });
-		setOpClass2({ opacity: '0' });
-		setOpClass3({ opacity: '0' });
+		setOpClass1('');
+		setOpClass2('');
+		setOpClass3('');
 		setShift(false);
 		setDest('');
 		setDeparture('');
@@ -241,9 +241,9 @@ export default function App() {
 	}
 
 	// className for booking page
-	const [opClass1, setOpClass1] = useState({ opacity: '0' });
-	const [opClass2, setOpClass2] = useState({ opacity: '0' });
-	const [opClass3, setOpClass3] = useState({ opacity: '0' });
+	const [opClass1, setOpClass1] = useState('');
+	const [opClass2, setOpClass2] = useState('');
+	const [opClass3, setOpClass3] = useState('');
 	const [shift, setShift] = useState(false);
 
 	return (
@@ -312,6 +312,7 @@ export default function App() {
 					setDest={setDest}
 					shift={shift}
 					setShift={setShift}
+					shiftLoding={shiftLoding}
 					setClass={{
 						one: opClass1, 
 						two: opClass2,
