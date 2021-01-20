@@ -9,20 +9,16 @@ import Modal from '@material-ui/core/Modal';
 import SignIn from '../component/signIn';
 import SignUp from '../component/signUp';
 
-<<<<<<< HEAD
-import User from '../../backend/models/user';
-=======
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { ALLUSER_QUERY, USER_QUERY, FINDSEAT_QUERY, ALLSHIFT_QUERY, SHIFT_QUERY } from '../graphql/query.js';
->>>>>>> e1ff2e496b807e3da7e5b51e083038e101751f6e
 
 const theme = createMuiTheme({
   typography: {
     fontFamily: [
-			'Arial Black',
+			'Roboto',
 			'Arial',
 			'American Typewriter',
-			'Roboto',
+			'Arial Black',
     ].join(','),
   },
 });
