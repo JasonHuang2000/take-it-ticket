@@ -50,8 +50,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: 'auto',
 		marginTop: theme.spacing(5),
 		marginBottom: theme.spacing(5),
-		display: 'flex',
-    flexWrap: 'wrap',
+		display: 'block',
 		height: '90%',
 		width: '60%',
 		textAlign: 'center',
@@ -84,10 +83,11 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(1,2,1,2),
 	}, 
 	returnContainer: {
-		width: '30%',
-		position: 'absolute',
-		top: '785px',
-		left: '140px',
+		width: '20%',
+		marginTop: theme.spacing(3),
+	}, 
+	header: {
+		display: 'flex',
 	}
 }));
 
@@ -259,20 +259,26 @@ export default function Booking(props) {
 
 			{ shift ? (
 				<Paper className={classes.shiftSection} style={three}>
-					<div className={classes.returnContainer}>
-						<Button
-							type="submit"
-							color="secondary"
-							variant="outlined"
-							onClick={handleResetClick}
-						>
-							Reset
-						</Button>
+					<div className={classes.header}>
+						<div className={classes.returnContainer}>
+							<Button
+								type="submit"
+								color="secondary"
+								variant="outlined"
+								onClick={handleResetClick}
+							>
+								Reset
+							</Button>
+						</div>
+						<div className={classes.subtitle}>
+							<Typography variant="h4" className={classes.subtitle} style={{ width: '70%' }}>Choose Shift</Typography> 
+						</div>
 					</div>
-					<div className={classes.subtitle}>
-						<Typography variant="h5" className={classes.subtitle} style={{ width: 'auto' }}>Choose Shift</Typography> 
-					</div>
-					<Shift />
+					<Shift 
+						shiftData={shiftData}
+						departure={_departure}
+						dest={_dest}
+					/>
 				</Paper>
 			) : ( 
 				<> </>

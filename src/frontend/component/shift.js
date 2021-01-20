@@ -1,24 +1,25 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography'
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
 import { useEffect } from 'react';
 import { Container } from '@material-ui/core';
 
 const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-		borderRadius: '10px',
-	},
 	root: {
-		borderRadius: '10px',
+		display: 'block',
+	},
+	header: {
+		marginTop: '16px',
+		display: 'flex',
+		width: '70%',
+		margin: '0 auto',
+	},
+	headerText: {
+		color: 'grey',
+		flex: '1',
 	}
 });
 
@@ -50,7 +51,13 @@ export default function Shift(props) {
 	})
 
   return (
-		<Container>
+		<Container className={classes.root}>
+			<div className={classes.header}>
+				<Typography variant="subtitle2" className={classes.headerText}>Train No.</Typography>
+				<Typography variant="subtitle2" className={classes.headerText}>{`${departure}`}</Typography>
+				<ArrowRightAltIcon style={{ color: 'grey', fontSize: '22px' }}/>
+				<Typography variant="subtitle2" className={classes.headerText}>{`${dest}`}</Typography>
+			</div>
 		</Container>
   );
 }
