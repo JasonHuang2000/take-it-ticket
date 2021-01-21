@@ -2,6 +2,7 @@ import StartUp from './startUp.js';
 import Options from './options.js';
 import MyDrawer from './drawer';
 import Booking from './booking';
+import Record from './record';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
@@ -49,11 +50,10 @@ export default function App() {
 	const [dest, setDest] = useState('');
 
 	// grqphql
-	const { loading, error, data : userData, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
-	const [createUser] = useMutation(CREATE_USER_MUTATION);
+	const { loading: userLoading, error, data : userData, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
+	const [createUser] = useMutation(CREATE_USER_MUTATION)
 	const [deleteUser] = useMutation(DELETE_USER_MUTATION);
-	const [updateRecord] = useMutation(UPDATE_RECORD_MUTATION);
-	const { loading: shiftLoding, data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
+	const { loading: shiftLoading, data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
 		year: parseInt(date.slice(0, 4)),
 		month: parseInt(date.slice(5, 7)),
 		day: parseInt(date.slice(8, 10)),
@@ -131,6 +131,7 @@ export default function App() {
 	const [enterOption, setEnterOption] = useState(false);
 	const [enterBooking, setEnterBooking] = useState(false);
 	const [enterRecord, setEnterRecord] = useState(false);
+	const [enterRec, setEnterRec] = useState(false);
 	// handling function
 	const handleEnterOption = () => {
 		const savedPwd = MD5(password).toString();
@@ -187,6 +188,15 @@ export default function App() {
 		setMenuOpen(false);
 		userData.user = null;
 	}
+	const handleEnterRec = () => {
+		while ( userLoading ) {}
+		setTimeout(() => {
+			setEnterOption(true);
+			setEnterBooking(true);
+			handleToggleMenu(false);
+			setEnterRec(true);
+		}, 100);
+	}
 
 	// handling function
 	const handleDateChange = (e) => {
@@ -208,7 +218,11 @@ export default function App() {
 		setMenuOpen(opened);
 	}
 	const handleHomeClick = () => {
-		setEnterOption(false);
+		if ( signIn ) {
+			setEnterOption(true);
+		} else {
+			setEnterOption(false);
+		}
 		setEnterBooking(false);
 		setEnterRecord(false);
 	}
@@ -216,10 +230,10 @@ export default function App() {
 	// booking-tickets options
 	const [reserved, setReserved] = useState(false);
 	const handleBookOptionClick = (r, record) => {
-		console.log(record);
 		setMenuOpen(false);
 		setEnterOption(true);
 		setEnterBooking(true);
+		setEnterRec(false);
 		setReserved(r);
 		setEnterRecord(record);
 		setOpClass1('');
@@ -317,17 +331,16 @@ export default function App() {
 				enterOption={enterOption}
 			/>
 			{ !enterOption ? (
-				<>
-					<StartUp 
-						onSignInClick={handleSignInClick}
-						onBookOptionClick={handleBookOptionClick}
-					/>
-				</>
+				<StartUp 
+					onSignInClick={handleSignInClick}
+					onBookOptionClick={handleBookOptionClick}
+				/>
 			) : ( !enterBooking ? (
 				<Options 
 					onBookOptionClick={handleBookOptionClick}
+					onRecordClick={handleEnterRec}
 				/>
-			) : (
+			) : ( !enterRec ? (
 				<Booking 
 					_date={date}
 					_time={time}
@@ -342,7 +355,7 @@ export default function App() {
 					setDest={setDest}
 					shift={shift}
 					setShift={setShift}
-					shiftLoding={shiftLoding}
+					shiftLoading={shiftLoading}
 					onSeatChange={handleSeatChange}
 					seatChosen={seatChosen}
 					enterRecord={enterRecord}
@@ -356,7 +369,13 @@ export default function App() {
 					}}
 					handleConfirm={handleConfirm}
 				/>
-			)) }
+			) : (
+				<Record
+					name={name}
+					userData={userData}
+					userLoading={userLoading}	
+				/>
+			))) }
 		</ThemeProvider>
 	);
 }

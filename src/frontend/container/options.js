@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 		transform: 'translateY(-50%)',
 		borderRadius: '10px',
 		'&:hover': {
-			boxShadow: '10px 10px 5px grey',
+			boxShadow: '10px 10px 5px rgb(0,51,102)',
 		},
 	},
 	schedule: {
@@ -76,6 +76,7 @@ export default function Options(props) {
 							<Option 
 								optionInfo={info}
 								onBookOptionClick={props.onBookOptionClick}
+								onRecordClick={props.onRecordClick}
 							/>
 						</Paper>
 					);

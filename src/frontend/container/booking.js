@@ -106,7 +106,7 @@ export default function Booking(props) {
 
   const classes = useStyles();
 	const station = ['Taipei', 'Hsinchu', 'Taichung'];
-	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange, reserved, shiftData, setDest, shift, setShift, setClass, shiftLoding, onSeatChange, seatChosen, enterRecord } = props;
+	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange, reserved, shiftData, setDest, shift, setShift, setClass, shiftLoading, onSeatChange, seatChosen, enterRecord } = props;
 	const { one, two, three, setOne, setTwo, setThree } = setClass;
 
 	const [departError, setDepartError] = useState(false);
@@ -141,11 +141,11 @@ export default function Booking(props) {
 	const handleTimeClick = () => {
 		if ( reserved ) {
 			setShift(true);
-			while ( shiftLoding ) {}
+			while ( shiftLoading ) {}
 			setTimeout(() => { 
 				bottomRef.current.scrollIntoView()
 				setThree(`${classes.after}`);
-			}, 10);
+			}, 100);
 		}
 	}
 	const handleBackClick = () => {

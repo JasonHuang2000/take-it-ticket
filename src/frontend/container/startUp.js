@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: '12px',
 	},
 	button: {
-		width: '60%',
+		width: '70%',
 		top: '30%',
 		left: '50%',
 		transform: 'translate(-50%)',
