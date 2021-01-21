@@ -51,9 +51,11 @@ export default function App() {
 
 	// grqphql
 	const { loading: userLoading, error, data : userData, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
-	const [createUser] = useMutation(CREATE_USER_MUTATION)
+	const [createUser] = useMutation(CREATE_USER_MUTATION);
 	const [deleteUser] = useMutation(DELETE_USER_MUTATION);
 	const [updateRecord] = useMutation(UPDATE_RECORD_MUTATION);
+	const [updateSeat] = useMutation(UPDATE_SEAT_MUTATION);
+
 	const { loading: shiftLoading, data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
 		year: parseInt(date.slice(0, 4)),
 		month: parseInt(date.slice(5, 7)),
@@ -280,6 +282,14 @@ export default function App() {
 								available: false,
 							}
 						})
+						updateSeat({
+							variables: {
+								trainNum: trainNum,
+								carriage: Math.floor(idx / 40) + 1,
+								seatNum: (idx % 40) + 1,
+								available: false,
+							}
+						})
 					}
 				})
 			} else {
@@ -297,14 +307,22 @@ export default function App() {
 								available: false,
 							}
 						})
+						updateSeat({
+							variables: {
+								trainNum: trainNum,
+								carriage: Math.floor(i / 40) + 1,
+								seatNum: (i % 40) + 1,
+								available: false,
+							}
+						})
 					}
 				}
 			}
-			setSuccess(true);
-			setTimeout(() => {
-				handleHomeClick();
-				setSuccess(false);
-			}, 1000);
+			// setSuccess(true);
+			// setTimeout(() => {
+			// 	setSuccess(false);
+			// }, 1000);
+			handleHomeClick();
 		} else {
 			console.log("not sign in")
 			setSignInOpen(true)
