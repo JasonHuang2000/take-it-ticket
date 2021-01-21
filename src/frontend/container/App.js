@@ -146,6 +146,7 @@ export default function App() {
 	// entered pages
 	const [enterOption, setEnterOption] = useState(false);
 	const [enterBooking, setEnterBooking] = useState(false);
+	const [enterRecord, setEnterRecord] = useState(false);
 	// handling function
 	const handleEnterOption = () => {
 		const savedPwd = MD5(password).toString();
@@ -222,14 +223,21 @@ export default function App() {
 	const handleToggleMenu = (opened) => {
 		setMenuOpen(opened);
 	}
+	const handleHomeClick = () => {
+		setEnterOption(false);
+		setEnterBooking(false);
+		setEnterRecord(false);
+	}
 
 	// booking-tickets options
 	const [reserved, setReserved] = useState(false);
-	const handleBookOptionClick = (r) => {
+	const handleBookOptionClick = (r, record) => {
+		console.log(record);
 		setMenuOpen(false);
 		setEnterOption(true);
 		setEnterBooking(true);
 		setReserved(r);
+		setEnterRecord(record);
 		setOpClass1('');
 		setOpClass2('');
 		setOpClass3('');
@@ -245,6 +253,17 @@ export default function App() {
 	const [opClass2, setOpClass2] = useState('');
 	const [opClass3, setOpClass3] = useState('');
 	const [shift, setShift] = useState(false);
+	// for shift seat
+	const [seatChosen, setSeatChosen] = useState(new Array(200).fill(false));
+	const handleSeatChange = (idx, reset) => {
+		const arr = [...seatChosen];
+		if ( reset ) {
+			arr.fill(false);
+		} else {
+			arr[idx] = !(arr[idx]);
+		}
+		setSeatChosen(arr);
+	}
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -286,11 +305,14 @@ export default function App() {
 				onLogOutClick={handleLogOut}
 				onDeleteClick={handleDelete}
 				onBookOptionClick={handleBookOptionClick}
+				onHomeClick={handleHomeClick}
+				enterOption={enterOption}
 			/>
 			{ !enterOption ? (
 				<>
 					<StartUp 
 						onSignInClick={handleSignInClick}
+						onBookOptionClick={handleBookOptionClick}
 					/>
 				</>
 			) : ( !enterBooking ? (
@@ -313,6 +335,9 @@ export default function App() {
 					shift={shift}
 					setShift={setShift}
 					shiftLoding={shiftLoding}
+					onSeatChange={handleSeatChange}
+					seatChosen={seatChosen}
+					enterRecord={enterRecord}
 					setClass={{
 						one: opClass1, 
 						two: opClass2,

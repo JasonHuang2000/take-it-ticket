@@ -4,12 +4,14 @@ import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import { useState } from 'react';
 
+import Background from '../img/3.jpg';
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		height: '100%',
 		display: 'flex',
     flexWrap: 'wrap',
-		backgroundColor: 'rgb(224,224,224)',
+		backgroundImage: `url(${Background})`,
 		justifyContent: 'center',
 	},
 	optionContainer: {

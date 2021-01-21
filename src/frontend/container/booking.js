@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import Shift from '../component/shift';
 
+import Background from '../img/3.jpg';
+
 const useStyles = makeStyles((theme) => ({
   container: {
 		position: 'absolute',
@@ -15,11 +17,11 @@ const useStyles = makeStyles((theme) => ({
 		left: '0',
 		width: '100%',
 		height: '100%',
-		backgroundColor: 'rgb(200,200,200)',
+		backgroundImage: `url(${Background})`,
 		textAlign: 'center',
 		display: 'block',
 		scrollBehavior: 'smooth',
-		overflowY: 'scroll',
+		overflowY: 'hidden',
 	},
 	title: {
 		width: '100%',
@@ -92,6 +94,11 @@ const useStyles = makeStyles((theme) => ({
 	}, 
 	header: {
 		display: 'flex',
+	}, 
+	seatButton: {
+		marginTop: '50px',
+		height: '40px',
+		width: '100px',
 	}
 }));
 
@@ -99,7 +106,7 @@ export default function Booking(props) {
 
   const classes = useStyles();
 	const station = ['Taipei', 'Hsinchu', 'Taichung'];
-	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange, reserved, shiftData, setDest, shift, setShift, setClass, shiftLoding } = props;
+	const { _date, _time, _departure, _dest, onDateChange, onTimeChange, onDepartureChange, onDestChange, reserved, shiftData, setDest, shift, setShift, setClass, shiftLoding, onSeatChange, seatChosen, enterRecord } = props;
 	const { one, two, three, setOne, setTwo, setThree } = setClass;
 
 	const [departError, setDepartError] = useState(false);
@@ -279,14 +286,32 @@ export default function Booking(props) {
 							</Button>
 						</div>
 						<div className={classes.subtitle}>
-							<Typography variant="h4" className={classes.subtitle} style={{ width: '70%' }}>Choose Shift</Typography> 
+							<Typography variant="h4" className={classes.subtitle} style={{ width: '70%' }}>
+							{ enterRecord ? 'Shift Schedule' : 'Choose Shift' }
+							</Typography> 
 						</div>
 					</div>
 					<Shift 
 						shiftData={shiftData}
 						departure={_departure}
 						dest={_dest}
+						onSeatChange={onSeatChange}
+						seatChosen={seatChosen}
+						enterRecord={enterRecord}
 					/>
+					{ !enterRecord ? (
+						<Button
+								type="submit"
+								variant="contained"
+								fullWidth
+								color="primary"
+								className={classes.seatButton}
+						>
+							Comfirm
+						</Button>
+					) : (
+						<></>
+					)}
 				</Paper>
 			) : ( 
 				<> </>

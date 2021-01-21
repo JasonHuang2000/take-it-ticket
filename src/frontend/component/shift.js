@@ -49,7 +49,7 @@ const useStyles = makeStyles({
 		width: '500px',
 		height: '150px',
 		scrollBehavior: 'smooth',
-		overflowX: 'auto',
+		overflowX: 'hidden',
 		overflowY: 'hidden',
 		whiteSpace: 'nowrap',
 	},
@@ -85,6 +85,17 @@ const useStyles = makeStyles({
 		backgroundColor: 'rgb(240,240,240)',
 		borderRadius: '3px',
 	}, 
+	seatChosen: {
+		height: '25px',
+		width: '25px',
+		margin: '3px 6px 3px 6px',
+		backgroundColor: 'rgb(255,102,102)',
+		borderRadius: '3px',
+		'&:hover': {
+			backgroundColor: 'rgb(255,204,204)',
+			cursor: 'pointer',
+		}
+	},
 	bigContainer: {
 		display: 'flex',
 		margin: '0 auto',
@@ -103,18 +114,18 @@ function createData(outdata) {
   return { trainNum, date, departure, departtime, arrival, arrivetime, seats };
 }
 
-// let rows = [{trainNum: 1, date: {year: 2020, month: 12, day: 12}, departure: "a", arrival: "b", departtime: { hour: 10, minute: 10 }, arrivetime: { hour: 11, minute: 10 } }, {trainNum: 1, date: {year: 2020, month: 12, day: 12}, departure: "a", arrival: "b", departtime: { hour: 10, minute: 10 }, arrivetime: { hour: 11, minute: 10 } }];
 let rows = []
 
 export default function Shift(props) {
   const classes = useStyles();
-  const { shiftData, departure, dest } = props;
+  const { shiftData, departure, dest, onSeatChange, seatChosen, enterRecord } = props;
 	const [seatOpened, setSeatOpened] = useState(new Array(5).fill(false));
 	const [currentIdx, setCurrentIdx] = useState(0);
-	const ref0 = useRef(null);
-	const ref1 = useRef(null);
-	const ref2 = useRef(null);
-	const ref3 = useRef(null);
+	const navRef0 = useRef(null);
+	const navRef1 = useRef(null);
+	const navRef2 = useRef(null);
+	const navRef3 = useRef(null);
+	const navRef4 = useRef(null);
 
   useEffect(() => {
 		rows = [];
@@ -126,21 +137,57 @@ export default function Shift(props) {
     }
 	})
 	const handleSeatOpened = (idx) => {
-		console.log(seatOpened[idx]);
 		const arr = [...seatOpened];
 		arr[idx] = !(arr[idx]);
+		for ( let i = 0; i < arr.length; i++ ) {
+			if ( i !== idx ) {
+				arr[i] = false;
+			}
+		}
+		setCurrentIdx(0);
 		setSeatOpened(arr);
+		onSeatChange(-1, true);
 	}
-	const handlePreviousClick = () => {
-		if ( currentIdx === 1 ) ref0.current.scrollIntoView();
-		else if ( currentIdx === 2 ) ref1.current.scrollIntoView();
-		else if ( currentIdx === 3 ) ref2.current.scrollIntoView();
+	const handlePreviousClick = (idx) => {
+		switch (idx) {
+			case 0: 
+				navRef0.current.scrollLeft -= 500;
+				break;
+			case 1: 
+				navRef1.current.scrollLeft -= 500;
+				break;
+			case 2: 
+				navRef2.current.scrollLeft -= 500;
+				break;
+			case 3: 
+				navRef3.current.scrollLeft -= 500;
+				break;
+			case 4: 
+				navRef4.current.scrollLeft -= 500;
+				break;
+			default: break;
+		}
 		setCurrentIdx(currentIdx-1);
 	}
-	const handleNextClick = () => {
-		if ( currentIdx === 0 ) ref1.current.scrollIntoView();
-		else if ( currentIdx === 1 ) ref2.current.scrollIntoView();
-		else if ( currentIdx === 2 ) ref3.current.scrollIntoView();
+	const handleNextClick = (idx) => {
+		switch (idx) {
+			case 0: 
+				navRef0.current.scrollLeft += 500;
+				break;
+			case 1: 
+				navRef1.current.scrollLeft += 500;
+				break;
+			case 2: 
+				navRef2.current.scrollLeft += 500;
+				break;
+			case 3: 
+				navRef3.current.scrollLeft += 500;
+				break;
+			case 4: 
+				navRef4.current.scrollLeft += 500;
+				break;
+			default: break;
+		}
 		setCurrentIdx(currentIdx+1);
 	}
 
@@ -157,7 +204,15 @@ export default function Shift(props) {
 					const { trainNum, departtime, arrivetime, seats } = val;
 					const { hour: d_hour, minute: d_minute } = departtime;
 					const { hour: a_hour, minute: a_minute } = arrivetime;
-					console.log(seats);
+					let navRef;
+					switch (idx) {
+						case 0: navRef = navRef0; break;
+						case 1: navRef = navRef1; break;
+						case 2: navRef = navRef2; break;
+						case 3: navRef = navRef3; break;
+						case 4: navRef = navRef4; break;
+						default: break;
+					}
 					return (
 						<>
 							<Paper className={classes.paper} onClick={ () => handleSeatOpened(idx) }>
@@ -166,60 +221,68 @@ export default function Shift(props) {
 								<ArrowRightAltIcon style={{ fontSize: '22px', margin: '10px 0 10px 0' }}/>
 								<Typography variant="subtitle1" className={classes.paperText}>{`${a_hour}:${a_minute}`}</Typography>
 							</Paper>
+							{ !enterRecord ? (
 							<Collapse in={seatOpened[idx]} timeout="auto" unmountOnExit>
 								<div className={classes.bigContainer}>
-									<IconButton aria-label="previos" disabled={currentIdx === 0} onClick={handlePreviousClick}>
+									<IconButton aria-label="previos" disabled={currentIdx === 0} onClick={() => handlePreviousClick(idx)}>
 										<KeyboardArrowLeftIcon />
 									</IconButton>
-									<Paper className={classes.seatPaper}>
+									<Paper className={classes.seatPaper} ref={navRef}>
 										<div className={classes.carContainer}>
-											<div className={classes.car} ref={ref0}>
+											<div className={classes.car}>
 												{ seats.slice(0, 40).map((val, idx) => {
-													const class_name = val ? classes.seat : classes.seatDisable;
+													const class_name = val.available ? ( seatChosen[idx+0] ? classes.seatChosen : classes.seat ) : classes.seatDisable;
 													return (
 														<div
 															className={class_name}
+															onClick={() => val.available ? onSeatChange(idx, false) : null}
 														></div>
 													)
 												}) }
 											</div>
-											<div className={classes.car} ref={ref1}>
+											<div className={classes.car}>
 												{ seats.slice(40, 80).map((val, idx) => {
-													const class_name = val ? classes.seat : classes.seatDisable;
+													const class_name = val.available ? ( seatChosen[idx+40] ? classes.seatChosen : classes.seat ) : classes.seatDisable;
 													return (
 														<div
 															className={class_name}
+															onClick={() => val.available ? onSeatChange(idx+40, false) : null}
 														></div>
 													)
 												}) }
 											</div>
-											<div className={classes.car} ref={ref2}>
-												{ seats.slice(40, 80).map((val, idx) => {
-													const class_name = val ? classes.seat : classes.seatDisable;
+											<div className={classes.car}>
+												{ seats.slice(80, 120).map((val, idx) => {
+													const class_name = val.available ? ( seatChosen[idx+80] ? classes.seatChosen : classes.seat ) : classes.seatDisable;
 													return (
 														<div
-														className={class_name}
+															className={class_name}
+															onClick={() => val.available ? onSeatChange(idx+80, false) : null}
 													></div>
 													)
 												}) }
 											</div>
-											<div className={classes.car} ref={ref3}>
-												{ seats.slice(40, 80).map((val, idx) => {
-													const class_name = val ? classes.seat : classes.seatDisable;
+											<div className={classes.car}>
+												{ seats.slice(120, 160).map((val, idx) => {
+													const class_name = val.available ? ( seatChosen[idx+120] ? classes.seatChosen : classes.seat ) : classes.seatDisable;
 													return (
 														<div
 															className={class_name}
+															onClick={() => val.available ? onSeatChange(idx+120, false) : null}
 														></div>
 													)
 												}) }
 											</div>
 										</div>
 									</Paper>
-									<IconButton aria-label="next" disabled={currentIdx === 3} onClick={handleNextClick}>
+									<IconButton aria-label="next" disabled={currentIdx === 3} onClick={() => handleNextClick(idx)}>
 										<KeyboardArrowRightIcon />
 									</IconButton>
 								</div>
 							</Collapse>
+							) : (
+								<></>
+							)}
 						</>
 					);
 				}) }

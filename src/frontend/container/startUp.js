@@ -1,37 +1,31 @@
 // react
 import React from 'react';
-import { useState } from 'react';
 
 // material ui
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
 import Container from '@material-ui/core/Container';
 
-// component
-import SignIn from '../component/signIn.js'
-import SignUp from '../component/signUp.js'
+import Background from '../img/2.jpg';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		height: '100%',
-		// backgroundImage: 'url("https://images.pexels.com/photos/28614/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260")',
+		backgroundImage: `url(${Background})`,
 		backgroundSize: 'cover',
-		backgroundColor: 'rgb(200, 200, 200)',
 	},
 	buttonContainer: {
-		height: '80%',
-		overflow: 'auto',
-		margin: 'auto',
+		height: '30%',
+		width: '350px',
 		position: 'absolute',
-		top: '0',
-		bottom: '0',
-		right: '0',
-		left: '0',
+		top: '50%',
+		transform: 'translateY(-50%)',
+		left: '65%',
 		backgroundColor: 'rgba(255, 255, 255, 0.3)',
+		borderRadius: '12px',
 	},
 	button: {
-		width: '40%',
+		width: '60%',
 		top: '30%',
 		left: '50%',
 		transform: 'translate(-50%)',
@@ -65,6 +59,7 @@ export default function StartUp(props) {
 					variant="contained"
 					color="default"
 					className={classes.button}
+					onClick={() => props.onBookOptionClick(true, true)}
 				> 
 					Shift Schedule
 				</Button>

@@ -94,10 +94,10 @@ export default function Menu(props) {
 				</ListItem>
 				<Collapse in={bookOpened} timeout="auto" unmountOnExit>
 					<List component="div" disablePadding>
-						<ListItem button className={classes.nested} onClick={() => onBookOptionClick(true)}>
+						<ListItem button className={classes.nested} onClick={() => onBookOptionClick(true, false)}>
 							<ListItemText primary="Reserved Seat" />
 						</ListItem>
-						<ListItem button className={classes.nested} onClick={() => onBookOptionClick(false)}>
+						<ListItem button className={classes.nested} onClick={() => onBookOptionClick(false, false)}>
 							<ListItemText primary="Non-reserved Seat" />
 						</ListItem>
 					</List>
@@ -105,7 +105,7 @@ export default function Menu(props) {
 				<ListItem 
 					button 
 					key='Shifts Schedule'
-					onClick={ () => onBookOptionClick(true) }
+					onClick={ () => onBookOptionClick(true, true) }
 				>
 					<ListItemIcon className={classes.icon}>
 						<ScheduleIcon />

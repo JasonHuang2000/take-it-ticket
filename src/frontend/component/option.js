@@ -86,7 +86,7 @@ export default function Option(props) {
 						fullWidth
 						color="primary"
 						className={classes.upbutton}
-						onClick={ () => props.onBookOptionClick(true) }
+						onClick={ () => props.onBookOptionClick(true, false) }
 					>
 						Reserved Seat
 					</Button>
@@ -96,7 +96,7 @@ export default function Option(props) {
 						fullWidth
 						color="secondary"
 						className={classes.button}
-						onClick={ () => props.onBookOptionClick(false) }
+						onClick={ () => props.onBookOptionClick(false, false) }
 					>
 						Non-reserved Seat
 					</Button>
@@ -108,7 +108,7 @@ export default function Option(props) {
 					fullWidth
 					color="default"
 					className={classes.button}
-					onClick={ () => props.onBookOptionClick(true) }
+					onClick={ () => props.onBookOptionClick(true, true) }
 				>
 					GO!
 				</Button>

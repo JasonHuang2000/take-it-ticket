@@ -17,18 +17,30 @@ const useStyles = makeStyles((theme) => ({
 		width: '50px',
 		fontSize: '18px',
 	},
+	homeButton: {
+		marginLeft: '10px',
+		fontSize: '18px',
+	}
 }));
 
 export default function MyDrawer(props) {
 	
 	const classes = useStyles();
-	const { opened, handleToggleMenu, signIn, onLogInClick, onLogOutClick, username, onDeleteClick, onBookOptionClick } = props;
+	const { opened, handleToggleMenu, signIn, onLogInClick, onLogOutClick, username, onDeleteClick, onBookOptionClick, onHomeClick, enterOption } = props;
 
 	return (
 		<div className={classes.root}>
 			<IconButton onClick={() => handleToggleMenu(true)} className={classes.button}>
 				<MenuIcon />
 			</IconButton>
+			{ enterOption ? (
+				<Button
+					className={classes.homeButton}
+					onClick={onHomeClick}
+				>
+					Take-it Ticket
+				</Button>
+			) : ( <></> )}
 			<Drawer open={opened} onClose={() => handleToggleMenu(false)} className={classes.drawer}>
 				<Menu 
 					signIn={signIn}
