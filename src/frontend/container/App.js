@@ -294,7 +294,14 @@ export default function App() {
 					}
 				}
 			} else {
-				const seats = shiftData.shift.seats;
+				let target = 0;
+				for ( let i = 0; i < shiftData.shift.length; i++ ) {
+					if ( trainNum === shiftData.shift[i].trainNum ) {
+						target = i;
+						break;
+					}
+				}
+				const seats = shiftData.shift[target].seats;
 				for ( let i = 160; i < seats.length; i++ ) {
 					if (seats[i].available) {
 						await updateRecord({
