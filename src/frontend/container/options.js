@@ -76,6 +76,7 @@ export default function Options(props) {
 							<Option 
 								optionInfo={info}
 								onBookOptionClick={props.onBookOptionClick}
+								onRecordClick={props.onRecordClick}
 							/>
 						</Paper>
 					);

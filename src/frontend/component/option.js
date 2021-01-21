@@ -119,6 +119,7 @@ export default function Option(props) {
 					fullWidth
 					color="default"
 					className={classes.button}
+					onClick={props.onRecordClick}
 				>
 					GO!
 				</Button>
