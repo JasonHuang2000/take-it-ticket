@@ -118,7 +118,7 @@ let rows = []
 
 export default function Shift(props) {
   const classes = useStyles();
-  const { shiftData, departure, dest, onSeatChange, seatChosen, enterRecord } = props;
+  const { shiftData, departure, dest, onSeatChange, seatChosen, enterRecord, setTrainNum } = props;
 	const [seatOpened, setSeatOpened] = useState(new Array(5).fill(false));
 	const [currentIdx, setCurrentIdx] = useState(0);
 	const navRef0 = useRef(null);
@@ -130,13 +130,14 @@ export default function Shift(props) {
   useEffect(() => {
 		rows = [];
 		if (shiftData !== undefined && shiftData.shift !== null) {
-      let i;
-      for (i = 0; i < (shiftData.shift.length < 5 ? shiftData.shift.length : 5); i++) {
-        rows.push(createData(shiftData.shift[i]))
-      }
+		let i;
+		for (i = 0; i < (shiftData.shift.length < 5 ? shiftData.shift.length : 5); i++) {
+			rows.push(createData(shiftData.shift[i]))
+		}
     }
 	})
 	const handleSeatOpened = (idx) => {
+		setTrainNum(idx)
 		const arr = [...seatOpened];
 		arr[idx] = !(arr[idx]);
 		for ( let i = 0; i < arr.length; i++ ) {

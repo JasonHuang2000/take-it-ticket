@@ -7,7 +7,13 @@ const RecordSchema = new Schema({
     trainNum: {
         type: Number
     },
-    seat: SeatSchema
+    seat: SeatSchema,
+    departure: {
+        type: String
+    },
+    arrival: {
+        type: String
+    }
 })
 
 export default RecordSchema

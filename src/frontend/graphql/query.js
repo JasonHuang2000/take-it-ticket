@@ -109,13 +109,14 @@ export const ALLUSER_QUERY = gql`
             userid
             password
             history {
-                total
                 trainNum
                 seats {
                     carriage
                     seatNum
                     available
                 }
+                departure
+                arrival
             }
         }
     }
@@ -128,13 +129,14 @@ export const USER_QUERY = gql`
             userid
             password
             history {
-                total
                 trainNum
                 seats {
                     carriage
                     seatNum
                     available
                 }
+                departure
+                arrival
             }
         }
     }
