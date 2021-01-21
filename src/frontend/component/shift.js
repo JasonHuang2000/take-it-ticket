@@ -16,11 +16,9 @@ const useStyles = makeStyles({
 		display: 'block',
 	},
 	header: {
-		marginTop: '16px',
 		display: 'flex',
 		width: '600px',
-		margin: '0 auto',
-		marginBottom: '30px',
+		margin: '10px auto',
 	},
 	headerText: {
 		color: 'grey',
@@ -33,8 +31,20 @@ const useStyles = makeStyles({
 		display: 'flex',
 		width: '600px',
 		margin: '0 auto',
-		marginTop: '20px',
+		marginTop: '10px',
 		marginBottom: '10px',
+		'&:hover': {
+			boxShadow: '5px 5px 5px grey',
+			cursor: 'pointer',
+		}
+	},
+	paperChosen: {
+		display: 'flex',
+		width: '600px',
+		margin: '0 auto',
+		marginTop: '10px',
+		marginBottom: '10px',
+		backgroundColor: 'rgb(200,200,200)',
 		'&:hover': {
 			boxShadow: '5px 5px 5px grey',
 			cursor: 'pointer',
@@ -100,7 +110,7 @@ const useStyles = makeStyles({
 		display: 'flex',
 		margin: '0 auto',
 		width: '600px',
-	}
+	}, 
 });
 
 function createData(outdata) {
@@ -118,7 +128,7 @@ let rows = []
 
 export default function Shift(props) {
   const classes = useStyles();
-  const { shiftData, departure, dest, onSeatChange, seatChosen, enterRecord, setTrainNum } = props;
+  const { shiftData, departure, dest, onSeatChange, seatChosen, enterRecord, setTrainNum, reserved } = props;
 	const [seatOpened, setSeatOpened] = useState(new Array(5).fill(false));
 	const [currentIdx, setCurrentIdx] = useState(0);
 	const navRef0 = useRef(null);
@@ -214,15 +224,19 @@ export default function Shift(props) {
 						case 4: navRef = navRef4; break;
 						default: break;
 					}
+					let Name = classes.paper;
+					if ( !reserved && seatOpened[idx] ) {
+						Name = classes.paperChosen;
+					}
 					return (
 						<>
-							<Paper className={classes.paper} onClick={ () => handleSeatOpened(idx) }>
+							<Paper className={Name} onClick={ () => handleSeatOpened(idx) }>
 								<Typography variant="subtitle1" className={classes.paperText}>{`${trainNum}`}</Typography>
 								<Typography variant="subtitle1" className={classes.paperText}>{`${d_hour}:${d_minute}`}</Typography>
 								<ArrowRightAltIcon style={{ fontSize: '22px', margin: '10px 0 10px 0' }}/>
 								<Typography variant="subtitle1" className={classes.paperText}>{`${a_hour}:${a_minute}`}</Typography>
 							</Paper>
-							{ !enterRecord ? (
+							{ (!enterRecord && reserved) ? (
 							<Collapse in={seatOpened[idx]} timeout="auto" unmountOnExit>
 								<div className={classes.bigContainer}>
 									<IconButton aria-label="previos" disabled={currentIdx === 0} onClick={() => handlePreviousClick(idx)}>

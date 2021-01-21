@@ -53,6 +53,7 @@ export default function App() {
 	const { loading: userLoading, error, data : userData, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
 	const [createUser] = useMutation(CREATE_USER_MUTATION)
 	const [deleteUser] = useMutation(DELETE_USER_MUTATION);
+	const [updateRecord] = useMutation(UPDATE_RECORD_MUTATION);
 	const { loading: shiftLoading, data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
 		year: parseInt(date.slice(0, 4)),
 		month: parseInt(date.slice(5, 7)),
@@ -80,7 +81,7 @@ export default function App() {
 		if (ID !== "") {
 			setIdEmp(false)
 		}
-	})
+	}, [userData, name, password, ID])
 
 	// handling function
 	const handleNameChange = (e) => {
@@ -262,29 +263,55 @@ export default function App() {
 		}
 		setSeatChosen(arr);
 	}
-	const handleConfirm = (trainNum) => {
+	const [success, setSuccess] = useState(false);
+	const handleConfirm = (trainNum, reserved) => {
 		if (signIn === true) {
-			seatChosen.forEach((s, idx) => {
-				if (s) {
-					updateRecord({
-						variables: {
-							userid: ID,
-							trainNum: trainNum,
-							departure: departure,
-							arrival: dest,
-							carriage: Math.floor(idx / 40) + 1,
-							seatNum: (idx % 40) + 1,
-							available: false,
-						}
-					})
+			if ( reserved ) {
+				seatChosen.forEach((s, idx) => {
+					if (s) {
+						updateRecord({
+							variables: {
+								userid: ID,
+								trainNum: trainNum,
+								departure: departure,
+								arrival: dest,
+								carriage: Math.floor(idx / 40) + 1,
+								seatNum: (idx % 40) + 1,
+								available: false,
+							}
+						})
+					}
+				})
+			} else {
+				const seats = shiftData.shift.seats;
+				for ( let i = 160; i < seats.length; i++ ) {
+					if (seats[i].available) {
+						updateRecord({
+							variables: {
+								userid: ID,
+								trainNum: trainNum,
+								departure: departure,
+								arrival: dest,
+								carriage: Math.floor(i / 40) + 1,
+								seatNum: (i % 40) + 1,
+								available: false,
+							}
+						})
+					}
 				}
-			})
-	
-			handleHomeClick()
+			}
+			setSuccess(true);
+			setTimeout(() => {
+				handleHomeClick();
+				setSuccess(false);
+			}, 1000);
 		} else {
 			console.log("not sign in")
 			setSignInOpen(true)
 		}
+	}
+	const handleMesClose = () => {
+		setSuccess(false);
 	}
 
 	return (
@@ -368,6 +395,8 @@ export default function App() {
 						setThree: setOpClass3,
 					}}
 					handleConfirm={handleConfirm}
+					success={success}
+					onMesClose={handleMesClose}
 				/>
 			) : (
 				<Record
