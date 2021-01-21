@@ -13,7 +13,7 @@ import MD5 from 'crypto-js/md5'
 
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { ALLUSER_QUERY, USER_QUERY, FINDSEAT_QUERY, ALLSHIFT_QUERY, SHIFT_QUERY } from '../graphql/query.js';
-import { CREATE_SHIFT_MUTATION, CREATE_USER_MUTATION, DELETE_SHIFT_MUTATION, DELETE_USER_MUTATION, UPDATE_SEAT_MUTATION } from '../graphql/mutation.js'
+import { CREATE_SHIFT_MUTATION, CREATE_USER_MUTATION, DELETE_SHIFT_MUTATION, DELETE_USER_MUTATION, UPDATE_SEAT_MUTATION, UPDATE_RECORD_MUTATION } from '../graphql/mutation.js'
 
 const theme = createMuiTheme({
   typography: {
@@ -50,8 +50,9 @@ export default function App() {
 
 	// grqphql
 	const { loading, error, data : userData, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
-	const [createUser] = useMutation(CREATE_USER_MUTATION)
+	const [createUser] = useMutation(CREATE_USER_MUTATION);
 	const [deleteUser] = useMutation(DELETE_USER_MUTATION);
+	const [updateRecord] = useMutation(UPDATE_RECORD_MUTATION);
 	const { loading: shiftLoding, data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
 		year: parseInt(date.slice(0, 4)),
 		month: parseInt(date.slice(5, 7)),
@@ -247,8 +248,29 @@ export default function App() {
 		}
 		setSeatChosen(arr);
 	}
-	const handleConfirm = () => {
-		
+	const handleConfirm = (trainNum) => {
+		if (signIn === true) {
+			seatChosen.forEach((s, idx) => {
+				if (s) {
+					updateRecord({
+						variables: {
+							userid: ID,
+							trainNum: trainNum,
+							departure: departure,
+							arrival: dest,
+							carriage: Math.floor(idx / 40) + 1,
+							seatNum: (idx % 40) + 1,
+							available: false,
+						}
+					})
+				}
+			})
+	
+			handleHomeClick()
+		} else {
+			console.log("not sign in")
+			setSignInOpen(true)
+		}
 	}
 
 	return (
@@ -332,6 +354,7 @@ export default function App() {
 						setTwo: setOpClass2,
 						setThree: setOpClass3,
 					}}
+					handleConfirm={handleConfirm}
 				/>
 			)) }
 		</ThemeProvider>

@@ -308,6 +308,7 @@ export default function Booking(props) {
 								fullWidth
 								color="primary"
 								className={classes.seatButton}
+								onClick={() => props.handleConfirm(trainNum)}
 						>
 							Confirm
 						</Button>

@@ -137,7 +137,7 @@ export default function Shift(props) {
     }
 	})
 	const handleSeatOpened = (idx) => {
-		setTrainNum(idx)
+		setTrainNum(rows[idx].trainNum)
 		const arr = [...seatOpened];
 		arr[idx] = !(arr[idx]);
 		for ( let i = 0; i < arr.length; i++ ) {
