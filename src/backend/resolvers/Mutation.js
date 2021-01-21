@@ -73,7 +73,9 @@ const Mutation = {
 				carriage: args.data.carriage,
 				seatNum: args.data.seatNum,
 				available: args.data.available,
-			}
+			},
+			departure: args.data.departure,
+			arrival: args.data.arrival
 		})
 
 		// clear history

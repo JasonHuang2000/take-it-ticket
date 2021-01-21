@@ -113,7 +113,8 @@ export default function Booking(props) {
 	const [destError, setDestError] = useState(false);
 	const [sameError, setSameError] = useState(false);
 	const topRef = useRef(null);
-	const bottomRef = useRef(null)
+	const bottomRef = useRef(null);
+	const [trainNum, setTrainNum] = useState(0);
 
 	const handleLocationClick = () => {
 		setDest(_dest)
@@ -267,7 +268,7 @@ export default function Booking(props) {
 							className={classes.button}
 							onClick={handleTimeClick}
 					>
-						Comfirm
+						Confirm
 					</Button>
 				</div>
 			</Paper>
@@ -298,6 +299,7 @@ export default function Booking(props) {
 						onSeatChange={onSeatChange}
 						seatChosen={seatChosen}
 						enterRecord={enterRecord}
+						setTrainNum={setTrainNum}
 					/>
 					{ !enterRecord ? (
 						<Button
@@ -307,7 +309,7 @@ export default function Booking(props) {
 								color="primary"
 								className={classes.seatButton}
 						>
-							Comfirm
+							Confirm
 						</Button>
 					) : (
 						<></>

@@ -23,6 +23,8 @@ export const CREATE_USER_MUTATION = gql`
                     seatNum
                     available
                 }
+                departure
+                arrival
             }
         }
     }
@@ -117,6 +119,8 @@ export const UPDATE_RECORD_MUTATION = gql`
         $carriage: Int
         $seatNum: Int
         $available: Boolean
+        $departure: String
+        $arrival: String
     ) {
         updateRecord(
             data: {
@@ -125,6 +129,8 @@ export const UPDATE_RECORD_MUTATION = gql`
                 carriage: $carriage
                 seatNum: $seatNum
                 available: $available
+                departure: $departure
+                arrival: $arrival
         }) {
             name
             userid
@@ -136,6 +142,8 @@ export const UPDATE_RECORD_MUTATION = gql`
                     seatNum
                     available
                 }
+                departure
+                arrival
             }
         }
     }
@@ -154,6 +162,8 @@ export const DELETE_USER_MUTATION = gql`
                     seatNum
                     available
                 }
+                departure
+                arrival
             }
         }
     }
@@ -161,7 +171,7 @@ export const DELETE_USER_MUTATION = gql`
 
 export const DELETE_SHIFT_MUTATION = gql`
     mutation deleteShift($id: String!) {
-        deleteUser(id: $id) {
+        deleteShift(id: $id) {
             trainNum
             schedule {
                 date {

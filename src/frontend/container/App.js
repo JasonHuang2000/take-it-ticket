@@ -53,31 +53,14 @@ export default function App() {
 	const [createUser] = useMutation(CREATE_USER_MUTATION)
 	const [deleteUser] = useMutation(DELETE_USER_MUTATION);
 	const { loading: shiftLoding, data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
-		// date: {
 		year: parseInt(date.slice(0, 4)),
 		month: parseInt(date.slice(5, 7)),
 		day: parseInt(date.slice(8, 10)),
-		// },
-		// time: {
 		hour: parseInt(time.slice(0, 2)),
 		minute: parseInt(time.slice(3, 5)),
-		// },
 		departure: departure,
 		arrival: dest,
 	}})
-	// const { data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
-	// 	// date: {
-	// 		year: 2020,
-	// 		month: 2,
-	// 		day: 14,
-	// 	// },
-	// 	// time: {
-	// 		hour: 10,
-	// 		minute: 10,
-	// 	// },
-	// 	departure: "Taipei",
-	// 	arrival: "Taichung",
-	// }})
 
 	useEffect(() => {
 		if (userData !== undefined) {
@@ -263,6 +246,9 @@ export default function App() {
 			arr[idx] = !(arr[idx]);
 		}
 		setSeatChosen(arr);
+	}
+	const handleConfirm = () => {
+		
 	}
 
 	return (

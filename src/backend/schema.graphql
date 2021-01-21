@@ -61,6 +61,8 @@ input upSeat {
 
 input upRecord {
   userid: String
+  departure: String
+  arrival: String
   trainNum: Int
   carriage: Int
   seatNum: Int
@@ -90,6 +92,8 @@ type User {
 }
 
 type Record {
+  departure: String
+  arrival: String
   trainNum: Int
   seat: Seat
 }
