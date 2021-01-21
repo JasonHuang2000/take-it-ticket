@@ -53,7 +53,7 @@ export default function App() {
 	const { loading: userLoading, error, data : userData, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
 	const [createUser] = useMutation(CREATE_USER_MUTATION)
 	const [deleteUser] = useMutation(DELETE_USER_MUTATION);
-	const { loading: shiftLoding, data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
+	const { loading: shiftLoading, data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
 		year: parseInt(date.slice(0, 4)),
 		month: parseInt(date.slice(5, 7)),
 		day: parseInt(date.slice(8, 10)),
@@ -134,6 +134,7 @@ export default function App() {
 	const [enterRec, setEnterRec] = useState(false);
 	// handling function
 	const handleEnterOption = () => {
+		console.log(userData);
 		const savedPwd = MD5(password).toString();
 		if (userData.user === null) {
 			setWrongID(true)
