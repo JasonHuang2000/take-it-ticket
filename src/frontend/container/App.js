@@ -318,10 +318,10 @@ export default function App() {
 					}
 				}
 			}
-			// setSuccess(true);
-			// setTimeout(() => {
-			// 	setSuccess(false);
-			// }, 1000);
+			setSuccess(true);
+			setTimeout(() => {
+				setSuccess(false);
+			}, 1000);
 			handleHomeClick();
 		} else {
 			console.log("not sign in")

@@ -100,6 +100,15 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: '30px',
 		height: '40px',
 		width: '100px',
+	},
+	mesContainer: {
+		height: '200px',
+		width: '300px',
+		position: 'absolute',
+		top: '50%',
+		left: '50%',
+		transform: 'translate(-50%, -50%)',
+		textAlign: 'center',
 	}
 }));
 
