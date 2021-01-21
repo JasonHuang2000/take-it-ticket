@@ -145,7 +145,7 @@ export default function Booking(props) {
 			setTimeout(() => { 
 				bottomRef.current.scrollIntoView()
 				setThree(`${classes.after}`);
-			}, 10);
+			}, 100);
 		}
 	}
 	const handleBackClick = () => {

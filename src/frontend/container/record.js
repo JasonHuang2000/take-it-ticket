@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	paper: {
 		display: 'flex',
-		width: '600px',
+		width: '700px',
 		margin: '0 auto',
 		marginTop: '20px',
 		marginBottom: '10px',
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 		}
 	},
 	paperText: {
-		flex: '1',
+		flex: '3',
 		marginTop: '10px',
 		marginBottom: '10px',
 	},
@@ -100,12 +100,10 @@ export default function Record(props) {
 	// setOpClass(classes.after);
 
   useEffect(() => {
-		rows = [];
 		if (userData !== undefined && userData.user !== null) {
       let i;
 			const history = userData.user.history;
-			console.log(history);
-      for (i = 0; i < (history.length < 5 ? history.length : 5); i++) {
+      for (i = 0; i < history.length; i++) {
         rows.push(createData(history[i]))
       }
     }
@@ -134,12 +132,12 @@ export default function Record(props) {
 								const { trainNum, carriage, seatNum, departure, arrival } = val;
 								return (
 									<Paper className={classes.paper}>
-										<Typography variant="subtitle1" className={classes.headerText}>Train No.</Typography>
-										<Typography variant="subtitle1" className={classes.headerText}>Departure</Typography>
-										<ArrowRightAltIcon style={{ color: 'grey', fontSize: '22px' }}/>
-										<Typography variant="subtitle1" className={classes.headerText}>Destination</Typography>
-										<Typography variant="subtitle1" className={classes.headerText} style={{ flex: '2' }}>Carriage No.</Typography>
-										<Typography variant="subtitle1" className={classes.headerText} style={{ flex: '2' }}>Seat No.</Typography>
+										<Typography variant="subtitle1" className={classes.paperText}>{`${trainNum}`}</Typography>
+										<Typography variant="subtitle1" className={classes.paperText}>{`${departure}`}</Typography>
+										<ArrowRightAltIcon style={{ fontSize: '22px', margin: 'auto 0' }}/>
+										<Typography variant="subtitle1" className={classes.paperText}>{`${arrival}`}</Typography>
+										<Typography variant="subtitle1" className={classes.paperText} style={{ flex: '2' }}>{`${carriage}`}</Typography>
+										<Typography variant="subtitle1" className={classes.paperText} style={{ flex: '2' }}>{`${seatNum}`}</Typography>
 									</Paper>
 								);
 							})

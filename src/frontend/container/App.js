@@ -134,7 +134,6 @@ export default function App() {
 	const [enterRec, setEnterRec] = useState(false);
 	// handling function
 	const handleEnterOption = () => {
-		console.log(userData);
 		const savedPwd = MD5(password).toString();
 		if (userData.user === null) {
 			setWrongID(true)
@@ -191,10 +190,12 @@ export default function App() {
 	}
 	const handleEnterRec = () => {
 		while ( userLoading ) {}
-		setEnterOption(true);
-		setEnterBooking(true);
-		handleToggleMenu(false);
-		setEnterRec(true);
+		setTimeout(() => {
+			setEnterOption(true);
+			setEnterBooking(true);
+			handleToggleMenu(false);
+			setEnterRec(true);
+		}, 100);
 	}
 
 	// handling function
@@ -217,7 +218,11 @@ export default function App() {
 		setMenuOpen(opened);
 	}
 	const handleHomeClick = () => {
-		setEnterOption(false);
+		if ( signIn ) {
+			setEnterOption(true);
+		} else {
+			setEnterOption(false);
+		}
 		setEnterBooking(false);
 		setEnterRecord(false);
 	}
@@ -225,7 +230,6 @@ export default function App() {
 	// booking-tickets options
 	const [reserved, setReserved] = useState(false);
 	const handleBookOptionClick = (r, record) => {
-		console.log(record);
 		setMenuOpen(false);
 		setEnterOption(true);
 		setEnterBooking(true);
