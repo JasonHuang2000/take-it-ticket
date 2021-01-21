@@ -266,37 +266,13 @@ export default function App() {
 		setSeatChosen(arr);
 	}
 	const [success, setSuccess] = useState(false);
-	const handleConfirm = (trainNum, reserved) => {
-		if (signIn === true) {
+	const handleConfirm = async (trainNum, reserved) => {
+		if ( signIn === true ) {
 			if ( reserved ) {
-				seatChosen.forEach((s, idx) => {
-					if (s) {
-						updateRecord({
-							variables: {
-								userid: ID,
-								trainNum: trainNum,
-								departure: departure,
-								arrival: dest,
-								carriage: Math.floor(idx / 40) + 1,
-								seatNum: (idx % 40) + 1,
-								available: false,
-							}
-						})
-						updateSeat({
-							variables: {
-								trainNum: trainNum,
-								carriage: Math.floor(idx / 40) + 1,
-								seatNum: (idx % 40) + 1,
-								available: false,
-							}
-						})
-					}
-				})
-			} else {
-				const seats = shiftData.shift.seats;
-				for ( let i = 160; i < seats.length; i++ ) {
-					if (seats[i].available) {
-						updateRecord({
+				for ( let i = 0; i < 160; i++ ) {
+					if ( seatChosen[i] ) {
+						console.log('hi');
+						await updateRecord({
 							variables: {
 								userid: ID,
 								trainNum: trainNum,
@@ -307,7 +283,32 @@ export default function App() {
 								available: false,
 							}
 						})
-						updateSeat({
+						await updateSeat({
+							variables: {
+								trainNum: trainNum,
+								carriage: Math.floor(i / 40) + 1,
+								seatNum: (i % 40) + 1,
+								available: false,
+							}
+						})
+					}
+				}
+			} else {
+				const seats = shiftData.shift.seats;
+				for ( let i = 160; i < seats.length; i++ ) {
+					if (seats[i].available) {
+						await updateRecord({
+							variables: {
+								userid: ID,
+								trainNum: trainNum,
+								departure: departure,
+								arrival: dest,
+								carriage: Math.floor(i / 40) + 1,
+								seatNum: (i % 40) + 1,
+								available: false,
+							}
+						})
+						await updateSeat({
 							variables: {
 								trainNum: trainNum,
 								carriage: Math.floor(i / 40) + 1,
@@ -320,9 +321,9 @@ export default function App() {
 			}
 			setSuccess(true);
 			setTimeout(() => {
+				handleHomeClick();
 				setSuccess(false);
 			}, 1000);
-			handleHomeClick();
 		} else {
 			console.log("not sign in")
 			setSignInOpen(true)

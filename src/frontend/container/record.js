@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 	}, 
 	main: {
 		display: 'block',
+		overflowY: 'scroll',
 	},
 	paper: {
 		display: 'flex',
@@ -103,7 +104,7 @@ export default function Record(props) {
 		if (userData !== undefined && userData.user !== null) {
       let i;
 			const history = userData.user.history;
-      for (i = 0; i < history.length; i++) {
+			for (i = 0; i < ( history.length < 7 ? history.length : 7 ); i++) {
         rows.push(createData(history[i]))
       }
     }

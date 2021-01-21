@@ -102,13 +102,18 @@ const useStyles = makeStyles((theme) => ({
 		width: '100px',
 	},
 	mesContainer: {
-		height: '200px',
-		width: '300px',
+		height: '50px',
+		width: '150px',
 		position: 'absolute',
 		top: '50%',
 		left: '50%',
 		transform: 'translate(-50%, -50%)',
 		textAlign: 'center',
+		display: 'flex',
+	},
+	mes: {
+		margin: 'auto auto',
+		fontWeight: 'bold',
 	}
 }));
 
