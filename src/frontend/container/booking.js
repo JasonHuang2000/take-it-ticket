@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import Shift from '../component/shift';
+import Modal from '@material-ui/core/Modal';
 
 import Background from '../img/3.jpg';
 
@@ -96,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 	}, 
 	seatButton: {
-		marginTop: '50px',
+		marginTop: '30px',
 		height: '40px',
 		width: '100px',
 	}
@@ -139,14 +140,12 @@ export default function Booking(props) {
 		}
 	}
 	const handleTimeClick = () => {
-		if ( reserved ) {
-			setShift(true);
-			while ( shiftLoading ) {}
-			setTimeout(() => { 
-				bottomRef.current.scrollIntoView()
-				setThree(`${classes.after}`);
-			}, 100);
-		}
+		setShift(true);
+		while ( shiftLoading ) {}
+		setTimeout(() => { 
+			bottomRef.current.scrollIntoView()
+			setThree(`${classes.after}`);
+		}, 100);
 	}
 	const handleBackClick = () => {
 		setTwo('');
@@ -163,6 +162,11 @@ export default function Booking(props) {
     <div className={classes.container}>
 
 			<Paper className={`${classes.section} ${classes.time} ${one}`} ref={topRef}>
+				<Modal open={props.success} onClose={props.onMesClose}>
+					<Paper className={classes.mesContainer}>
+						<Typography variant='h5' className={classes.mes}>Success !</Typography>
+					</Paper>
+				</Modal>
 				<Typography variant="h6" className={classes.subtitle}>Select Departure and Destination</Typography>
 				<TextField
 					id="departure"
@@ -299,6 +303,7 @@ export default function Booking(props) {
 						onSeatChange={onSeatChange}
 						seatChosen={seatChosen}
 						enterRecord={enterRecord}
+						reserved={reserved}
 						setTrainNum={setTrainNum}
 					/>
 					{ !enterRecord ? (
@@ -308,7 +313,7 @@ export default function Booking(props) {
 								fullWidth
 								color="primary"
 								className={classes.seatButton}
-								onClick={() => props.handleConfirm(trainNum)}
+								onClick={() => props.handleConfirm(trainNum, reserved)}
 						>
 							Confirm
 						</Button>
