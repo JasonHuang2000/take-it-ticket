@@ -67,19 +67,19 @@ const Mutation = {
 			userid: args.data.userid
 		})
 
-		// user.history.push({
-		// 	trainNum: args.data.trainNum,
-		// 	seat: {
-		// 		carriage: args.data.carriage,
-		// 		seatNum: args.data.seatNum,
-		// 		available: args.data.available,
-		// 	},
-		// 	departure: args.data.departure,
-		// 	arrival: args.data.arrival
-		// })
+		user.history.push({
+			trainNum: args.data.trainNum,
+			seat: {
+				carriage: args.data.carriage,
+				seatNum: args.data.seatNum,
+				available: args.data.available,
+			},
+			departure: args.data.departure,
+			arrival: args.data.arrival
+		})
 
 		// clear history
-		user.history = []
+		// user.history = []
 
 		await User.updateOne({
 			userid: args.data.userid
