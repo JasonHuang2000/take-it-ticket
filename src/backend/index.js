@@ -49,7 +49,7 @@ mongoose.connect(process.env.MONGO_URL, {
 
 db.once('open', () => {
 	console.log('MongoDB connected!')
-	const PORT = process.env.port || 4000
+	const PORT = process.env.PORT || 4000
 	server.start({ port: PORT }, ({ port }) => {
 		console.log(`Server started, listening on port ${port} for incoming requests.`)
 	})
