@@ -96,7 +96,7 @@ export const UPDATE_SEAT_MUTATION = gql`
         $trainNum: Int
         $carriage: Int
         $seatNum: Int
-        $available: Int
+        $available: Boolean
     ) {
         updateSeat(
             data: {
