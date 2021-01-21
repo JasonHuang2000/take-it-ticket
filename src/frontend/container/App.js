@@ -51,8 +51,10 @@ export default function App() {
 
 	// grqphql
 	const { loading: userLoading, error, data : userData, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
-	const [createUser] = useMutation(CREATE_USER_MUTATION)
+	const [createUser] = useMutation(CREATE_USER_MUTATION);
 	const [deleteUser] = useMutation(DELETE_USER_MUTATION);
+	const [updateRecord] = useMutation(UPDATE_RECORD_MUTATION);
+	const [updateSeat] = useMutation(UPDATE_SEAT_MUTATION);
 	const { loading: shiftLoading, data: shiftData } = useQuery(SHIFT_QUERY, {variables: {
 		year: parseInt(date.slice(0, 4)),
 		month: parseInt(date.slice(5, 7)),
@@ -272,6 +274,15 @@ export default function App() {
 							trainNum: trainNum,
 							departure: departure,
 							arrival: dest,
+							carriage: Math.floor(idx / 40) + 1,
+							seatNum: (idx % 40) + 1,
+							available: false,
+						}
+					})
+
+					updateSeat({
+						variables: {
+							trainNum: trainNum,
 							carriage: Math.floor(idx / 40) + 1,
 							seatNum: (idx % 40) + 1,
 							available: false,
