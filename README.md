@@ -58,20 +58,24 @@ Also, if you want to delete your account for some reason, the delete button is r
 
 #### Frontend
 
-React
+- React
+- React Hooks
+- Apollo-client
+- Apollo-provider
 
 #### Backend
 
-Apollo
+- Graphql-yoga
 
 #### Database
 
-MongoDB
+- MongoDB Atlas
 
-#### Others
+#### Others (3rd Party Package)
 
 - CRYPTO.JS - for hashing the password with MD5 function
-- Material UI - HTML Tags
+- Material UI - UI compoments
+- moment.js - for time format
 
 ### Review
 
