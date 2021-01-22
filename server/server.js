@@ -49,7 +49,7 @@ mongoose.connect(process.env.MONGO_URL, {
 	useUnifiedTopology: true
 })
 
-const DYNO_URL = 'https://take-it-ticket-test.herokuapp.com/'
+const DYNO_URL = 'https://take-it-ticket.herokuapp.com/'
 db.once('open', () => {
 	console.log('MongoDB connected!')
 	const PORT = process.env.port || 4000
