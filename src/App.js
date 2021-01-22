@@ -95,10 +95,6 @@ export default function App() {
 	const handlePswdChange = (e) => {
 		setPassword(e.target.value);
 	}
-	const handleLogIn = () => {
-		handleToggleMenu(false);
-		setSignIn(true);
-	}
 	const handleLogOut = () => {
 		handleToggleMenu(false);
 		setSignIn(false);
