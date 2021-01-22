@@ -13,11 +13,11 @@ import wakeUpDyno from './wakeUpDyno.js'
 dotenv.config()
 
 // mongodb connection
-if (!process.env.MONGO_URL) {
-	console.error('Missing MONGO_URL!!!')
+if (!process.env.MONGO_URI) {
+	console.error('Missing MONGO_URI!!!')
 	process.exit(1)
 }
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect(process.env.MONGO_URI, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 })
@@ -39,12 +39,12 @@ const server = new GraphQLServer({
 	}
 })
 
-if (!process.env.MONGO_URL) {
-	console.error('Missing MONGO_URL!!!')
+if (!process.env.MONGO_URI) {
+	console.error('Missing MONGO_URI!!!')
 	process.exit(1)
 }
 
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect(process.env.MONGO_URI, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 })
