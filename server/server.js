@@ -24,7 +24,7 @@ const db = mongoose.connection
 // graphQL server
 const pubsub = new PubSub()
 const server = new GraphQLServer({
-	typeDefs: './src/backend/schema.graphql',
+	typeDefs: './server/schema.graphql',
 	resolvers: {
 		Query,
 		Mutation,
