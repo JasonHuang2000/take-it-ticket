@@ -8,6 +8,8 @@ import Query from './resolvers/Query.js'
 import Mutation from './resolvers/Mutation.js'
 import Subscription from './resolvers/Subscription.js'
 
+const wakeUpDyno = require('./wakeUpDyno.js');
+
 dotenv.config()
 
 // mongodb connection
@@ -47,10 +49,12 @@ mongoose.connect(process.env.MONGO_URL, {
 	useUnifiedTopology: true
 })
 
+const DYNO_URL = 'https://take-it-ticket-test.herokuapp.com/'
 db.once('open', () => {
 	console.log('MongoDB connected!')
 	const PORT = process.env.port || 4000
 	server.start({ port: PORT }, ({ port }) => {
+		wakeUpDyno(DYNO_URL);
 		console.log(`Server started, listening on port ${port} for incoming requests.`)
 	})
 })
