@@ -114,6 +114,8 @@ export default function App() {
 	const [signUpOpen, setSignUpOpen] = useState(false);
 	// handling function
 	const handleSignInClick = () => {
+		setWrongID(false);
+		setWrongPwd(false);
 		handleToggleMenu(false);
 		setSignInOpen(true);
 		setSignUpOpen(false);
@@ -123,6 +125,10 @@ export default function App() {
 		setSignInOpen(false);
 	}
 	const handleSignUpClick = () => {
+		setIDtaken(false);
+		setIdEmp(false);
+		setpwdEmp(false);
+		setnameEmp(false);
 		setSignUpOpen(true);
 		setSignInOpen(false);
 	}
