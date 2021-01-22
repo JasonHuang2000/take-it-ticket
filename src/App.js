@@ -50,7 +50,7 @@ export default function App() {
 	const [dest, setDest] = useState('');
 
 	// grqphql
-	const { loading: userLoading, data : userData, refetch } = useQuery(USER_QUERY, {variables: {id: ID}})
+	const { loading: userLoading, data : userData } = useQuery(USER_QUERY, {variables: {id: ID}})
 	const [createUser] = useMutation(CREATE_USER_MUTATION);
 	const [deleteUser] = useMutation(DELETE_USER_MUTATION);
 	const [updateRecord] = useMutation(UPDATE_RECORD_MUTATION);
