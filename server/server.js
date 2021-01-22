@@ -8,7 +8,7 @@ import Query from './resolvers/Query.js'
 import Mutation from './resolvers/Mutation.js'
 import Subscription from './resolvers/Subscription.js'
 
-const wakeUpDyno = require('./wakeUpDyno.js');
+import wakeUpDyno from './wakeUpDyno.js'
 
 dotenv.config()
 

@@ -16,6 +16,7 @@
     "crypto-js": "^4.0.0",
     "graphql-yoga": "^1.18.3",
     "moment": "^2.29.1",
+    "node-fetch": "^2.6.1",
     "react": "^17.0.1",
     "react-apollo": "^3.1.5",
     "react-dom": "^17.0.1",

@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+import fetch from 'node-fetch'
 
 const wakeUpDyno = (url, interval = 14, callback) => {
     const milliseconds = interval * 60000;
@@ -18,7 +18,7 @@ const wakeUpDyno = (url, interval = 14, callback) => {
                 callback(); // execute callback, if passed
             }
             catch (e) { // catch callback error
-                callback ? console.log("Callback failed: ", e.message) : null;
+                callback ? ( console.log("Callback failed: ", e.message) ) : null;
             }
             finally {
                 // do it all again
@@ -28,4 +28,4 @@ const wakeUpDyno = (url, interval = 14, callback) => {
     }, milliseconds);
 };
 
-module.exports = wakeUpDyno;
+export default wakeUpDyno;

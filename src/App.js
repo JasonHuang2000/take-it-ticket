@@ -146,6 +146,8 @@ export default function App() {
 			setWrongPwd(true)
 			setSignInOpen(true);
 		} else if (userData.user.userid === ID && savedPwd === userData.user.password) {
+			setWrongID(false)
+			setWrongPwd(false)
 			setSignIn(true)
 			setSignInOpen(false);
 			setSignUpOpen(false);
