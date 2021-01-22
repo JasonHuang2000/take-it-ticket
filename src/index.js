@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import App from './frontend/container/App.js'
+import App from './App'
 import 'antd/dist/antd.css'
 import { ApolloClient, InMemoryCache } from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
