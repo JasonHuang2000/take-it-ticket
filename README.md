@@ -8,9 +8,9 @@ B08902121 資工二 吳青瑾
 
 ### Links
 
-[Deploy Link]()
+[Deploy Link](https://take-it-ticket.herokuapp.com/#)
 
-[Demo Video Link]()
+[Demo Video Link](https://youtu.be/9gTQOBT4mxc)
 
 ### Description
 
@@ -65,6 +65,7 @@ Also, if you want to delete your account for some reason, the delete button is r
 
 #### Backend
 
+- ApolloServer
 - Graphql-yoga
 
 #### Database
