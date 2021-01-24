@@ -196,7 +196,6 @@ export default function App() {
 		userData.user = null;
 	}
 	const handleEnterRec = () => {
-		while ( userLoading ) {}
 		if ( !signIn ) {
 			setSignInOpen(true);
 		} else {
@@ -346,6 +345,10 @@ export default function App() {
 	}
 	const handleMesClose = () => {
 		setSuccess(false);
+	}
+
+	if ( enterRec && userLoading ) { 
+		return null;
 	}
 
 	return (

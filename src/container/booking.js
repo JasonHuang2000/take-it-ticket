@@ -131,6 +131,14 @@ export default function Booking(props) {
 	const bottomRef = useRef(null);
 	const [trainNum, setTrainNum] = useState(0);
 
+	if ( shift && shiftLoading ) return null;
+	else if ( shift ) {
+		setTimeout(() => { 
+			bottomRef.current.scrollIntoView()
+			setThree(`${classes.after}`);
+		}, 100);
+	}
+
 	const handleLocationClick = () => {
 		setDest(_dest)
 		if ( _departure === '' ) {
@@ -155,17 +163,13 @@ export default function Booking(props) {
 	}
 	const handleTimeClick = () => {
 		setShift(true);
-		while ( shiftLoading ) {}
-		setTimeout(() => { 
-			bottomRef.current.scrollIntoView()
-			setThree(`${classes.after}`);
-		}, 100);
 	}
 	const handleBackClick = () => {
 		setTwo('');
 	}
 	const handleResetClick = () => {
 		topRef.current.scrollIntoView();
+		setShift(false);
 		setTimeout(() => setShift(false), 100);
 		handleBackClick();
 	}
