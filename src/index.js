@@ -15,7 +15,7 @@ const httpLink = new HttpLink({
   uri: 'https://take-it-ticket-server.herokuapp.com/'
 })
 
-// Create a secure WebSocket link:
+// Create a WebSocket link:
 const wsLink = new WebSocketLink({
 	uri: 'wss://take-it-ticket-server.herokuapp.com/',
   options: { reconnect: true }
