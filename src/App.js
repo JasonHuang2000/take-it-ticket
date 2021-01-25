@@ -274,7 +274,6 @@ export default function App() {
 	}
 	const [success, setSuccess] = useState(false);
 	const handleConfirm = async (trainNum, reserved) => {
-		setShift(false);
 		if ( signIn === true ) {
 			if ( reserved ) {
 				for ( let i = 0; i < 160; i++ ) {
@@ -338,6 +337,7 @@ export default function App() {
 			setTimeout(() => {
 				handleHomeClick();
 				setSuccess(false);
+				setShift(false);
 			}, 1000);
 		} else {
 			console.log("not sign in")
