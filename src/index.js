@@ -12,14 +12,14 @@ import { getMainDefinition } from 'apollo-utilities'
 
 // Create an http link:
 const httpLink = new HttpLink({
-	// uri: 'https://take-it-ticket-server.herokuapp.com/'
-	uri: 'http://localhost:4000'
+	uri: 'https://take-it-ticket-server.herokuapp.com/'
+	// uri: 'http://localhost:4000'
 })
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-	// uri: 'wss://take-it-ticket-server.herokuapp.com/',
-	uri: 'ws://localhost:4000',
+	uri: 'wss://take-it-ticket-server.herokuapp.com/',
+	// uri: 'ws://localhost:4000',
   options: { reconnect: true }
 })
 
