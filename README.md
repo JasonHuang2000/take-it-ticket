@@ -8,7 +8,10 @@ B08902121 資工二 吳青瑾
 
 ### Links
 
-[Deploy Link](https://take-it-ticket.herokuapp.com/#)（若想測試班次，可查詢 Taipei to Hsinchu 2020/02/14 的火車，也可以執行`yarn server`利用 playground 增加班次）
+[Deploy Link](https://take-it-ticket.herokuapp.com/#)
+
+- You may need to wait for a few minutes before the App start 
+- 若想測試班次，可查詢 Taipei to Hsinchu 2020/02/14 的火車，也可以執行`yarn server`利用 playground 增加班次
 
 [Demo Video Link](https://youtu.be/9gTQOBT4mxc)
 
