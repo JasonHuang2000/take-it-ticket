@@ -9,8 +9,8 @@ type Query {
 type Mutation {
   createUser(data: creUser!): User
   createShift(data: creShift!): Shift
-  updateSeat(data: upSeat) : Seat
-  updateRecord(data: upRecord) : User
+  updateSeat(data: upSeat): Seat
+  updateRecord(data: upRecord): User
   deleteUser(id: String!): User
   deleteShift(id: Int!): Shift
 }
